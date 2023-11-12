@@ -3,6 +3,9 @@ import styled from "styled-components";
 import Button from "./Button";
 import ButtonLink from "./ButtonLink";
 import CartIcon from "./icons/CartIcon";
+import {CartContext} from "./CartContext";
+import {useContext} from "react";
+
 
 
 const Bg = styled.div`
@@ -38,6 +41,11 @@ const ButtonsWrapper = styled.div`
 `;
 
 export default function Featured({product}) {
+    const {addProduct} = useContext(CartContext);
+    function addFeaturedToCard(){
+        addProduct(product._id);
+    }
+
     return (
         <Bg>
             <Center>
@@ -47,8 +55,8 @@ export default function Featured({product}) {
                             <Title>{product.title}</Title>
                             <Desc>{product.description}</Desc>
                             <ButtonsWrapper>
-                                <ButtonLink href={'/products/'+product._id} outline={1} white={1}>Read more</ButtonLink>
-                                <Button primary={1}>
+                                <ButtonLink href={'/products/'+product._id} outline="true" white="true">Read more</ButtonLink>
+                                <Button white="true" onClick={addFeaturedToCard}>
                                     <CartIcon />
                                     Add to cart
                                 </Button>
