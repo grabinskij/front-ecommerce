@@ -1,25 +1,34 @@
 import {createGlobalStyle} from "styled-components";
-import {Head} from "next/document";
 import {CartContextProvider} from "../components/CartContext";
+import { StyleSheetManager } from 'styled-components';
+
+
 
 const GlobalStyles = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+  
   
   body{
     background-color: #eee;
     padding: 0;
     margin: 0;
-    font-family: 'Roboto', sans-serif;
+    //font-family: 'Roboto', sans-serif;
   }
 `;
 
 export default function App({ Component, pageProps }) {
+    const shouldForwardProp = (prop, defaultValidatorFn) => {
+        // If the defaultValidatorFn is not a function, default to allowing the prop
+        const isDefaultValid = typeof defaultValidatorFn === 'function' ? defaultValidatorFn(prop) : true;
+        return isDefaultValid || prop.startsWith('$');
+    };
   return (
       <>
+          <StyleSheetManager shouldForwardProp={shouldForwardProp}>
         <GlobalStyles />
           <CartContextProvider>
               <Component {...pageProps} />
           </CartContextProvider>
+          </StyleSheetManager>
       </>
   )
 }
