@@ -82,7 +82,7 @@ export default function Featured({product}) {
                         </div>
                     </Column>
                     <Column>
-                        <img src="https://res.cloudinary.com/dem4nbanh/image/upload/v1699452330/ozez55oufhehjgdgbxcz.jpg" alt="Dell"/>
+                        <img src="https://res.cloudinary.com/dem4nbanh/image/upload/v1703690478/lybzmx24njshp7eqp2sd.jpg" alt="Dell"/>
                     </Column>
                 </ColumnsWrapper>
             </Center>
