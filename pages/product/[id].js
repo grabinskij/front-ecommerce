@@ -10,6 +10,7 @@ import {Product} from "../../models/Product";
 import WhiteBox from "../../components/WhiteBox";
 import Title from "../../components/Title";
 import ProductImages from "../../components/ProductImages";
+import FlyingButton from "../../components/FlyingButton";
 
 
 const ColWrapper = styled.div`
@@ -48,9 +49,9 @@ export default function ProductPage({product}) {
                                 <Price>${product.price}</Price>
                             </div>
                             <div>
-                                <Button primary onClick={() => addProduct(product._id)}>
+                                <FlyingButton main _id={product._id} src={product.images?.[0]}>
                                     <CartIcon />Add to cart
-                                </Button>
+                                </FlyingButton>
                             </div>
                         </PriceRow>
                     </div>

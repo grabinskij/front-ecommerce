@@ -5,6 +5,7 @@ import {Product} from "../models/Product";
 import ProductBox from "../components/ProductBox";
 import styled from "styled-components";
 import Link from "next/link";
+import {RevealWrapper} from "next-reveal";
 
 
 const CategoryGrid = styled.div`
@@ -33,10 +34,6 @@ const CategoryTitle = styled.div`
 `;
 const CategoryWrapper = styled.div`
   margin-bottom: 40px;
-`;
-
-const RevealWrapper = styled.div`
-  margin-bottom: 10px;
 `;
 
 const ShowAllSquare = styled(Link)`

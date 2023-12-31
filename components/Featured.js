@@ -1,11 +1,9 @@
 import Center from "./Center";
 import styled from "styled-components";
-import Button from "./Button";
 import ButtonLink from "./ButtonLink";
 import CartIcon from "./icons/CartIcon";
-import {CartContext} from "./CartContext";
-import {useContext} from "react";
-
+import FlyingButton from "./FlyingButton";
+import {RevealWrapper} from 'next-reveal'
 
 
 const Bg = styled.div`
@@ -29,21 +27,25 @@ const ColumnsWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: 40px;
-  img{
+
+  img.main {
     max-width: 100%;
     max-height: 200px;
     display: block;
     margin: 0 auto;
   }
-  div:nth-child(1){
+
+  div:nth-child(1) {
     order: 2;
   }
+
   @media screen and (min-width: 768px) {
     grid-template-columns: 1.1fr .9fr;
-    div:nth-child(1){
+    div:nth-child(1) {
       order: 0;
     }
-    img{
+
+    img {
       max-width: 100%;
     }
   }
@@ -57,33 +59,50 @@ const ButtonsWrapper = styled.div`
   gap: 10px;
   margin-top: 25px;
 `;
+const CenterImg = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+`;
 
+const ImgColumn = styled(Column)`
+  & > div {
+    width: 100%;
+  }
+`;
+const ContentWrapper = styled.div`
+`;
 export default function Featured({product}) {
-    const {addProduct} = useContext(CartContext);
-    function addFeaturedToCard(){
-        addProduct(product._id);
-    }
-
     return (
         <Bg>
             <Center>
                 <ColumnsWrapper>
                     <Column>
                         <div>
-                            <Title>{product.title}</Title>
-                            <Desc>{product.description}</Desc>
-                            <ButtonsWrapper>
-                                <ButtonLink href={'/product/'+product._id} outline="true" white="true">Read more</ButtonLink>
-                                <Button white="true" onClick={addFeaturedToCard}>
-                                    <CartIcon />
-                                    Add to cart
-                                </Button>
-                            </ButtonsWrapper>
+                            <RevealWrapper origin={'left'} delay={0}>
+                                <ContentWrapper>
+                                    <Title>{product.title}</Title>
+                                    <Desc>{product.description}</Desc>
+                                    <ButtonsWrapper>
+                                        <ButtonLink href={'/product/' + product._id} outline="true" white="true">Read
+                                            more</ButtonLink>
+                                        <FlyingButton white={1} _id={product._id} src={product.images?.[0]}>
+                                            <CartIcon/>
+                                            Add to cart
+                                        </FlyingButton>
+                                    </ButtonsWrapper>
+                                </ContentWrapper>
+                            </RevealWrapper>
                         </div>
                     </Column>
-                    <Column>
-                        <img src="https://res.cloudinary.com/dem4nbanh/image/upload/v1703690478/lybzmx24njshp7eqp2sd.jpg" alt="Dell"/>
-                    </Column>
+                    <ImgColumn>
+                        <RevealWrapper delay={0}>
+                            <CenterImg>
+                                <img className={'main'} src={product.images?.[0]} alt=""/>
+                            </CenterImg>
+                        </RevealWrapper>
+                    </ImgColumn>
                 </ColumnsWrapper>
             </Center>
         </Bg>
