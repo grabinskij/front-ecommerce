@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import Link from "next/link";
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {CartContext} from "./CartContext";
 import FlyingButton from "./FlyingButton";
 import HeartOutlineIcon from "./icons/HeartOutlineIcon";
 import HeartSolidIcon from "./icons/HeartSolidIcon";
+import axios from "axios";
 
 
 const ProductWrapper = styled.div`
@@ -83,15 +84,22 @@ const WishlistButton = styled.button`
   }
 `;
 
-export default function ProductBox({_id, title, description, price, images}){
-    // const {addProduct} = useContext(CartContext);
+export default function ProductBox({_id, title, description, price, images, wished= false,
+                                    onRemoveFromWishList=()=>{},
+                                   }) {
     const url = '/product/'+_id;
-    const [isWished, setIsWished] = useState(false);
-
+    const [isWished, setIsWished] = useState(wished);
     function addToWishlist(e) {
         e.preventDefault();
         e.stopPropagation();
-        setIsWished(prev => !prev);
+        const nextValue = !isWished;
+        if (nextValue === false && onRemoveFromWishList) {
+            onRemoveFromWishList(_id);
+        }
+        axios.post('/api/wishlist', {
+            product: _id,
+        }).then(() => {});
+        setIsWished(nextValue);
     }
 
     return (
@@ -116,3 +124,4 @@ export default function ProductBox({_id, title, description, price, images}){
         </ProductWrapper>
     )
 }
+
