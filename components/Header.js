@@ -86,6 +86,16 @@ const SideIcons = styled.div`
 export default function Header() {
     const {cartProducts} = useContext(CartContext);
     const [mobileNavActive,setMobileNavActive] = useState(false);
+    // const [isLoading, setIsLoading] = useState(false);
+    //
+    //     function handleSendImageToCart(ev) {
+    //         setIsLoading(true);
+    //         FlyingButton.sendImageToCart(ev);
+    //         setTimeout(() => {
+    //             setIsLoading(false);
+    //         }, 1000);
+    //     }
+
     return (
         <StyledHeader>
             <Center>
@@ -97,6 +107,9 @@ export default function Header() {
                         <NavLink href={'/categories'}>Categories</NavLink>
                         <NavLink href={'/account'}>Account</NavLink>
                         <NavLink href={'/cart'}>Cart ({cartProducts.length})</NavLink>
+                        {/*<NavLink href={'/cart'} onClick={isLoading ? (ev) => ev.preventDefault() : handleSendImageToCart}>*/}
+                        {/*    Cart ({cartProducts.length})*/}
+                        {/*</NavLink>*/}
                     </StyledNav>
                     <SideIcons>
                         <Link href={'/search'}><SearchIcon /></Link>
