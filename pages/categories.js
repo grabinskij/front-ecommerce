@@ -42,7 +42,7 @@ const CategoryWrapper = styled.div`
 
 const ShowAllSquare = styled(Link)`
   background-color: #ddd;
-  height: 160px;
+  height: 200px;
   border-radius: 10px;
   align-items:center;
   display: flex;
@@ -57,7 +57,7 @@ export default function CategoriesPage({mainCategories,categoriesProducts,wished
             <Header />
             <Center>
                 {mainCategories.map(cat => (
-                    <CategoryWrapper>
+                    <CategoryWrapper key={cat._id}>
                         <CategoryTitle>
                             <h2>{cat.name}</h2>
                             <div>

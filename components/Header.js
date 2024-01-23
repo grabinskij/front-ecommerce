@@ -7,21 +7,29 @@ import BarsIcon from "./icons/Bars";
 import SearchIcon from "./icons/SearchIcon";
 
 const StyledHeader = styled.header`
-  background-color: #222;
-  position:sticky;
-  top:0;
-  z-index:10;
+  background-color: #0286ee;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 `;
-const Logo = styled(Link)`
+const LogoWrapper = styled(Link)`
   color:#fff;
   text-decoration:none;
   position: relative;
+  z-index: 3;
+  width: 100px;
+  height: 45px;
+`;
+const LogoImage = styled.img`
+  max-width: 100%;
+  height: auto;
   z-index: 3;
 `;
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 20px 0;
+  padding: 12px 0 10px;
+  align-items: center;
 `;
 const StyledNav = styled.nav`
   ${props => props.mobileNavActive ? `
@@ -36,7 +44,6 @@ const StyledNav = styled.nav`
   left: 0;
   right: 0;
   padding: 70px 20px 20px;
-  background-color: #222;
   @media screen and (min-width: 768px) {
     display: flex;
     position: static;
@@ -45,7 +52,7 @@ const StyledNav = styled.nav`
 `;
 const NavLink = styled(Link)`
   display: block;
-  color:#aaa;
+  color:#fff;
   text-decoration:none;
   min-width:30px;
   padding: 10px 0;
@@ -57,7 +64,6 @@ const NavLink = styled(Link)`
   }
 `;
 const NavButton = styled.button`
-  background-color: transparent;
   width: 30px;
   height: 30px;
   border:0;
@@ -77,8 +83,8 @@ const SideIcons = styled.div`
     min-width:20px;
     color:white;
     svg{
-      width:14px;
-      height:14px;
+      width:16px;
+      height:16px;
     }
   }
 `;
@@ -86,30 +92,20 @@ const SideIcons = styled.div`
 export default function Header() {
     const {cartProducts} = useContext(CartContext);
     const [mobileNavActive,setMobileNavActive] = useState(false);
-    // const [isLoading, setIsLoading] = useState(false);
-    //
-    //     function handleSendImageToCart(ev) {
-    //         setIsLoading(true);
-    //         FlyingButton.sendImageToCart(ev);
-    //         setTimeout(() => {
-    //             setIsLoading(false);
-    //         }, 1000);
-    //     }
 
     return (
         <StyledHeader>
             <Center>
                 <Wrapper>
-                    <Logo href={'/'}>Ecommerce</Logo>
+                    <LogoWrapper href={'/'}>
+                        <LogoImage src="/logo-toys.png" alt="Logo" />
+                    </LogoWrapper>
                     <StyledNav mobileNavActive={mobileNavActive}>
                         <NavLink href={'/'}>Home</NavLink>
                         <NavLink href={'/products'}>All products</NavLink>
                         <NavLink href={'/categories'}>Categories</NavLink>
                         <NavLink href={'/account'}>Account</NavLink>
                         <NavLink href={'/cart'}>Cart ({cartProducts.length})</NavLink>
-                        {/*<NavLink href={'/cart'} onClick={isLoading ? (ev) => ev.preventDefault() : handleSendImageToCart}>*/}
-                        {/*    Cart ({cartProducts.length})*/}
-                        {/*</NavLink>*/}
                     </StyledNav>
                     <SideIcons>
                         <Link href={'/search'}><SearchIcon /></Link>

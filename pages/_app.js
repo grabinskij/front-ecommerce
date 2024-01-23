@@ -9,7 +9,7 @@ const GlobalStyles = createGlobalStyle`
     background-color: #eee;
     padding: 0;
     margin: 0;
-    //font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif;
   }
   hr{
     display: block;

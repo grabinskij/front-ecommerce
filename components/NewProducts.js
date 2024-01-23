@@ -10,11 +10,21 @@ const Title =styled.h2`
 `;
 
 
-export default function NewProducts({products,wishedProducts}) {
+export default function NewProducts({products,wishedProducts, totalCount, totalPages,  prevPage, nextPage, page, isPageOutOfRange, pageNumbers }) {
     return (
         <Center>
             <Title>New Arrivals</Title>
-            <ProductsGrid products={products} wishedProducts={wishedProducts} />
+            <ProductsGrid
+                products={products}
+                wishedProducts={wishedProducts}
+                totalCount={totalCount}
+                totalPages={totalPages}
+                prevPage={prevPage}
+                nextPage={nextPage}
+                page={page}
+                isPageOutOfRange={isPageOutOfRange}
+                pageNumbers={pageNumbers}
+            />
         </Center>
     );
 }

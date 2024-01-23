@@ -1,10 +1,22 @@
-import styled, {css} from "styled-components";
+import styled, {css, keyframes} from "styled-components";
 import {primary} from "../lib/colors";
 
 
+const clickAnimation = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
+
 export const ButtonStyle = css`
   border:0;
-  padding: 5px 15px;
+  padding: 7px 20px;
   border-radius: 5px;
   cursor: pointer;
   display: inline-flex;
@@ -12,9 +24,12 @@ export const ButtonStyle = css`
   text-decoration: none;
   font-family: 'Poppins', sans-serif;
   font-weight:500;
-  font-size: 15px;
+  font-size: 16px;
+  &:active{
+    animation: ${clickAnimation} 0.3s;
+  }
   svg{
-    height: 16px;
+    height: 18px;
     margin-right: 5px;
   }
   ${props => props.block && css`
@@ -41,22 +56,27 @@ export const ButtonStyle = css`
   `}
   ${props => props.primary && !props.outline && css`
     background-color: ${primary};
-    border: 1px solid ${primary};
+    border: 2px solid ${primary};
     color:#fff;
   `}
   ${props => props.primary && props.outline && css`
     background-color: transparent;
-    border: 1px solid ${primary};
+    border: 2px solid ${primary};
     color:${primary};
   `}
+  ${props =>
+      props.clicked &&
+      css`
+      animation: ${clickAnimation} 0.3s ease;
+    `}
 `;
 
 const StyledButton = styled.button`
   ${ButtonStyle}
 `;
 
-export default function Button({children,...rest}) {
+export default function Button({children, clicked,...rest}) {
   return (
-      <StyledButton {...rest}>{children}</StyledButton>
+      <StyledButton {...rest} clicked={clicked}>{children}</StyledButton>
   );
 }

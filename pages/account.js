@@ -117,7 +117,7 @@ export default function AccountPage() {
                                                     <p>Login to see your orders</p>
                                                 )}
                                                 {orders.length > 0 && orders.map(ord => (
-                                                    <Order {...ord} />
+                                                    <Order key={ord._id}{...ord} />
                                                 ))}
                                             </div>
                                         )}

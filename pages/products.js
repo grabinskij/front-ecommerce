@@ -10,31 +10,34 @@ import {WishedProduct} from "../models/WishedProduct";
 
 
 export default function ProductsPage({products, wishedProducts}) {
-  return (
-    <>
-      <Header />
-      <Center>
-        <Title>All products</Title>
-        <ProductsGrid products={products} wishedProducts={wishedProducts}/>
-      </Center>
-    </>
-  );
+    return (
+        <>
+            <Header/>
+            <Center>
+                <Title>All products</Title>
+                <ProductsGrid
+                    products={products}
+                    wishedProducts={wishedProducts}
+                />
+            </Center>
+        </>
+    );
 }
 
 export async function getServerSideProps(context) {
-  await mongooseConnect();
-  const products = await Product.find({}, null, {sort:{'_id':-1}});
+    await mongooseConnect();
+    const products = await Product.find({}, null, {sort: {'_id': -1}});
     const session = await getServerSession(context.req, context.res, authOptions);
     const wishedProducts = session?.user
         ? await WishedProduct.find({
-            userEmail:session?.user.email,
+            userEmail: session?.user.email,
             product: products.map(p => p._id.toString()),
         })
         : [];
-  return {
-    props:{
-      products: JSON.parse(JSON.stringify(products)),
-      wishedProducts: wishedProducts.map(i => i.product.toString()),
-    }
-  };
+    return {
+        props: {
+            products: JSON.parse(JSON.stringify(products)),
+            wishedProducts: wishedProducts.map(i => i.product.toString()),
+        }
+    };
 }

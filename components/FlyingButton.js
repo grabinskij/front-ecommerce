@@ -12,8 +12,13 @@ const FlyingButtonWrapper = styled.div`
       color:white;
     ` : `
       background-color: transparent;
-      border: 1px solid ${primary};
-      color:${primary};
+      border: 1px solid #333;
+      color: #333;
+      
+      &:hover {
+       background-color: #333;
+       color: #fff;
+       }
     `}
     ${props => props.white && `
       background-color: white;
@@ -52,7 +57,7 @@ export default function FlyingButton(props) {
         imgRef.current.style.top = (ev.clientY-50) + 'px';
         setTimeout(() => {
             imgRef.current.style.display = 'none';
-        }, 300);
+        }, 800);
     }
     useEffect(() => {
         const interval = setInterval(() => {

@@ -23,6 +23,14 @@ const Address = styled.div`
   margin-top: 5px;
   color:#888;
 `;
+const Paid = styled.span`
+  display: block;
+  ${props => props.paid ? `
+    color: green;
+    ` : `
+    color: red;
+  `}
+`;
 
 export default function Order({line_items,createdAt,...rest}) {
     return (
@@ -34,6 +42,7 @@ export default function Order({line_items,createdAt,...rest}) {
                     {rest.email}<br />
                     {rest.streetAddress}<br />
                     {rest.postalCode} {rest.city}, {rest.country}
+                    <Paid paid={rest.paid}>{rest.paid ? 'Paid' : 'Not paid'}</Paid>
                 </Address>
             </div>
             <div>

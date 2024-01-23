@@ -7,21 +7,21 @@ import {RevealWrapper} from 'next-reveal'
 
 
 const Bg = styled.div`
-  background-color: #222;
-  color: #fff;
-  padding: 50px 0;
+  background-color: #1f96f4;
+  color: #000;
+  padding: 45px 0;
 `;
 const Title = styled.h1`
   margin: 0;
   font-weight: normal;
-  font-size: 1.5rem;
+  font-size: 1.5em;
   @media screen and (min-width: 768px) {
     font-size: 3rem;
   }
 `;
 const Desc = styled.p`
-  color: #aaa;
-  font-size: .8rem;
+  color: #fff;
+  font-size: 1rem;
 `;
 const ColumnsWrapper = styled.div`
   display: grid;

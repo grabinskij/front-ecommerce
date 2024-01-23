@@ -1,9 +1,6 @@
 import styled from "styled-components";
-import {useContext} from "react";
-import {CartContext} from "../../components/CartContext";
 import Header from "../../components/Header";
 import Center from "../../components/Center";
-import Button from "../../components/Button";
 import CartIcon from "../../components/icons/CartIcon";
 import {mongooseConnect} from "../../lib/mongoose";
 import {Product} from "../../models/Product";
@@ -11,6 +8,7 @@ import WhiteBox from "../../components/WhiteBox";
 import Title from "../../components/Title";
 import ProductImages from "../../components/ProductImages";
 import FlyingButton from "../../components/FlyingButton";
+import ProductReviews from "../../components/ProductReviews";
 
 
 const ColWrapper = styled.div`
@@ -32,7 +30,6 @@ const Price = styled.span`
 `;
 
 export default function ProductPage({product}) {
-    const {addProduct} = useContext(CartContext);
     return (
         <>
             <Header />
@@ -56,6 +53,7 @@ export default function ProductPage({product}) {
                         </PriceRow>
                     </div>
                 </ColWrapper>
+                <ProductReviews product={product} />
             </Center>
         </>
     );
