@@ -19,10 +19,8 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 
-
 export default function App({Component, pageProps: { session, ...pageProps }}) {
     const shouldForwardProp = (prop, defaultValidatorFn) => {
-        // If the defaultValidatorFn is not a function, default to allowing the prop
         const isDefaultValid = typeof defaultValidatorFn === 'function' ? defaultValidatorFn(prop) : true;
         return isDefaultValid || prop.startsWith('$');
     };

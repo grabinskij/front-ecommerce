@@ -22,17 +22,19 @@ const CategoryGrid = styled.div`
 `;
 
 const CategoryTitle = styled.div`
-  display:flex;
+  display: flex;
   margin-top: 10px;
   margin-bottom: 0;
   align-items: center;
   gap: 10px;
-  h2{
+
+  h2 {
     margin-bottom: 10px;
     margin-top: 10px;
   }
-  a{
-    color:#555;
+
+  a {
+    color: #555;
     display: inline-block;
   }
 `;
@@ -44,34 +46,36 @@ const ShowAllSquare = styled(Link)`
   background-color: #ddd;
   height: 200px;
   border-radius: 10px;
-  align-items:center;
+  align-items: center;
   display: flex;
   justify-content: center;
   color: #555;
   text-decoration: none;
 `;
 
-export default function CategoriesPage({mainCategories,categoriesProducts,wishedProducts=[]}) {
+export default function CategoriesPage({mainCategories, categoriesProducts, wishedProducts = []}) {
+    console.log("wishedProducts",  wishedProducts)
+
     return (
         <>
-            <Header />
+            <Header/>
             <Center>
                 {mainCategories.map(cat => (
                     <CategoryWrapper key={cat._id}>
                         <CategoryTitle>
                             <h2>{cat.name}</h2>
                             <div>
-                                <Link href={'/category/'+cat._id}>Show all</Link>
+                                <Link href={'/category/' + cat._id}>Show all</Link>
                             </div>
                         </CategoryTitle>
                         <CategoryGrid>
-                            {categoriesProducts[cat._id].map((p,index) => (
-                                <RevealWrapper key={p._id} delay={index*50}>
-                                    <ProductBox {...p} wished={wishedProducts.includes(p._id)} />
+                            {categoriesProducts[cat._id].map((p, index) => (
+                                <RevealWrapper key={p._id} delay={index * 50}>
+                                    <ProductBox {...p} wished={wishedProducts.includes(p._id)}/>
                                 </RevealWrapper>
                             ))}
-                            <RevealWrapper delay={categoriesProducts[cat._id].length*50}>
-                                <ShowAllSquare href={'/category/'+cat._id}>
+                            <RevealWrapper delay={categoriesProducts[cat._id].length * 50}>
+                                <ShowAllSquare href={'/category/' + cat._id}>
                                     Show all &rarr;
                                 </ShowAllSquare>
                             </RevealWrapper>
@@ -89,20 +93,20 @@ export async function getServerSideProps(context) {
     const mainCategories = categories.filter(c => !c.parent);
     const categoriesProducts = {};
     const allFetchedProductsId = [];
-    for (const mainCat of mainCategories){
+    for (const mainCat of mainCategories) {
         const mainCatId = mainCat._id.toString();
         const childCatIds = categories
             .filter(c => c?.parent?.toString() === mainCatId)
             .map(c => c._id.toString());
         const categoriesIds = [mainCatId, ...childCatIds];
-        const products = await Product.find({category: categoriesIds}, null, {limit: 3, sort:{'id':-1}});
+        const products = await Product.find({category: categoriesIds}, null, {limit: 3, sort: {'id': -1}});
         allFetchedProductsId.push(...products.map(p => p._id.toString()))
         categoriesProducts[mainCat._id] = products;
     }
     const session = await getServerSession(context.req, context.res, authOptions);
     const wishedProducts = session?.user
         ? await WishedProduct.find({
-            userEmail:session?.user.email,
+            userEmail: session?.user.email,
             product: allFetchedProductsId,
         })
         : [];

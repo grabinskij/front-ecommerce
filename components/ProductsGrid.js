@@ -12,7 +12,7 @@ const StyledProductsGrid = styled.div`
   margin-bottom: 50px;
   @media screen and (min-width: 768px) {
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    margin-bottom: 100px;
+    margin-bottom: 70px;
   }
 `;
 const StyledPaginationWrapper = styled.div`

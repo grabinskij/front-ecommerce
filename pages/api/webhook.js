@@ -3,7 +3,7 @@ const stripe = require('stripe')(process.env.STRIPE_SK);
 import {buffer} from 'micro';
 import {Order} from "../../models/Order";
 
-const endpointSecret = "whsec_a5451769bb252adcb74e82b1f269dacb23b8756a095642c4120a8dea86c3c814";
+const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
 
 
 export default async function handler(req,res) {
@@ -19,7 +19,6 @@ export default async function handler(req,res) {
         return;
     }
 
-    // Handle the event
     switch (event.type) {
         case 'checkout.session.completed':
             const data = event.data.object;
@@ -31,7 +30,6 @@ export default async function handler(req,res) {
                 })
             }
             break;
-        // ... handle other event types
         default:
             console.log(`Unhandled event type ${event.type}`);
     }

@@ -9,7 +9,18 @@ import {authOptions} from "./api/auth/[...nextauth]";
 import {Setting} from "../models/Setting";
 
 
-export default function Home({featuredProduct, newProducts, wishedNewProducts, totalCount, totalPages,  prevPage, nextPage, page, isPageOutOfRange, pageNumbers }) {
+export default function Home({
+                                 featuredProduct,
+                                 newProducts,
+                                 wishedNewProducts,
+                                 totalCount,
+                                 totalPages,
+                                 prevPage,
+                                 nextPage,
+                                 page,
+                                 isPageOutOfRange,
+                                 pageNumbers
+                             }) {
 
     return (
         <div>
@@ -53,13 +64,10 @@ export async function getServerSideProps(context) {
         }
     }
 
-
-
     const skip = (page - 1) * itemsPerPage;
 
-    const newProducts = await Product.find({}, null, { sort: { _id: -1 }, skip, limit: itemsPerPage });
+    const newProducts = await Product.find({}, null, {sort: {_id: -1}, skip, limit: itemsPerPage});
 
-    // const newProducts = await Product.find({}, null, {sort: {'_id': -1}, limit: 8})
     const session = await getServerSession(context.req, context.res, authOptions);
     const wishedNewProducts = session?.user
         ? await WishedProduct.find({

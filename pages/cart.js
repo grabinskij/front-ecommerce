@@ -73,17 +73,27 @@ const ProductImageBox = styled.div`
 `;
 
 const QuantityLabel = styled.span`
-  padding: 0 15px;
+  padding: 0 10px;
   display: block;
   @media screen and (min-width: 768px) {
     display: inline-block;
-    padding: 0 10px;
   }
 `;
 
 const CityHolder = styled.div`
   display: flex;
   gap: 5px;
+`;
+const ProductAmount = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 30px;
+  margin: 0 auto;
+@media screen and (min-width: 768px) {
+  flex-direction: row;
+}
 `;
 
 
@@ -206,11 +216,13 @@ export default function cartPage() {
                                                 {product.title}
                                             </ProductInfoCell>
                                             <td>
-                                                <Button onClick={() => lessOfThisProduct(product._id)}>-</Button>
-                                                <QuantityLabel>
-                                                    {cartProducts.filter(id => id === product._id).length}
-                                                </QuantityLabel>
-                                                <Button onClick={() => moreOfThisProduct(product._id)}>+</Button>
+                                                <ProductAmount>
+                                                    <Button mobile onClick={() => lessOfThisProduct(product._id)}>-</Button>
+                                                    <QuantityLabel>
+                                                        {cartProducts.filter(id => id === product._id).length}
+                                                    </QuantityLabel>
+                                                    <Button mobile onClick={() => moreOfThisProduct(product._id)}>+</Button>
+                                                </ProductAmount>
                                             </td>
                                             <td>${cartProducts.filter(id => id === product._id).length * product.price}</td>
                                         </tr>

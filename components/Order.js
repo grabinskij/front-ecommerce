@@ -6,6 +6,7 @@ const StyledOrder = styled.div`
   border-bottom: 1px solid #ddd;
   display: flex;
   gap: 20px;
+  flex-wrap: wrap;
   align-items: center;
   time{
     font-size: 1rem;
@@ -47,7 +48,7 @@ export default function Order({line_items,createdAt,...rest}) {
             </div>
             <div>
                 {line_items.map(item => (
-                    <ProductRow>
+                    <ProductRow key={item.price_data.product_data.name}>
                         <span>{item.quantity} x </span>
                         {item.price_data.product_data.name}
                     </ProductRow>

@@ -5,6 +5,8 @@ import {useContext, useState} from "react";
 import {CartContext} from "./CartContext";
 import BarsIcon from "./icons/Bars";
 import SearchIcon from "./icons/SearchIcon";
+import {primary} from "../lib/colors";
+import {usePathname} from "next/navigation";
 
 const StyledHeader = styled.header`
   background-color: #0286ee;
@@ -13,8 +15,8 @@ const StyledHeader = styled.header`
   z-index: 10;
 `;
 const LogoWrapper = styled(Link)`
-  color:#fff;
-  text-decoration:none;
+  color: #fff;
+  text-decoration: none;
   position: relative;
   z-index: 3;
   width: 100px;
@@ -52,24 +54,34 @@ const StyledNav = styled.nav`
 `;
 const NavLink = styled(Link)`
   display: block;
-  color:#fff;
-  text-decoration:none;
-  min-width:30px;
-  padding: 10px 0;
-  svg{
-    height:20px;
+  text-decoration: none;
+  color: #000;
+  background-color: white;
+  min-width: 30px;
+  padding: 10px;
+  margin: 0 -20px;
+  font-weight: bold;
+  svg {
+    height: 20px;
   }
   @media screen and (min-width: 768px) {
-    padding:0;
+    opacity: ${props =>
+            props.href === props.currentPath ? "0.7" : "1"};
+    padding: 0;
+    color: #fff;
+    background-color: transparent;
+    margin: 0;
   }
 `;
 const NavButton = styled.button`
   width: 30px;
   height: 30px;
-  border:0;
+  border: 0;
+  padding-top: 4px;
   color: white;
   cursor: pointer;
   position: relative;
+  background-color: ${primary};
   z-index: 3;
   @media screen and (min-width: 768px) {
     display: none;
@@ -78,39 +90,43 @@ const NavButton = styled.button`
 const SideIcons = styled.div`
   display: flex;
   align-items: center;
-  a{
-    display:inline-block;
-    min-width:20px;
-    color:white;
-    svg{
-      width:16px;
-      height:16px;
+  gap: 20px;
+
+  a {
+    display: inline-block;
+    min-width: 20px;
+    color: white;
+
+    svg {
+      width: 16px;
+      height: 16px;
     }
   }
 `;
 
 export default function Header() {
+    const currentPath = usePathname();
     const {cartProducts} = useContext(CartContext);
-    const [mobileNavActive,setMobileNavActive] = useState(false);
+    const [mobileNavActive, setMobileNavActive] = useState(false);
 
     return (
         <StyledHeader>
             <Center>
                 <Wrapper>
                     <LogoWrapper href={'/'}>
-                        <LogoImage src="/logo-toys.png" alt="Logo" />
+                        <LogoImage src="/logo-toys.png" alt="Logo"/>
                     </LogoWrapper>
                     <StyledNav mobileNavActive={mobileNavActive}>
-                        <NavLink href={'/'}>Home</NavLink>
-                        <NavLink href={'/products'}>All products</NavLink>
-                        <NavLink href={'/categories'}>Categories</NavLink>
-                        <NavLink href={'/account'}>Account</NavLink>
-                        <NavLink href={'/cart'}>Cart ({cartProducts.length})</NavLink>
+                        <NavLink href={'/'} currentPath={currentPath}>Home</NavLink>
+                        <NavLink href={'/products'} currentPath={currentPath}>All products</NavLink>
+                        <NavLink href={'/categories'} currentPath={currentPath}>Categories</NavLink>
+                        <NavLink href={'/account'} currentPath={currentPath}>Account</NavLink>
+                        <NavLink href={'/cart'} currentPath={currentPath}>Cart ({cartProducts.length})</NavLink>
                     </StyledNav>
                     <SideIcons>
-                        <Link href={'/search'}><SearchIcon /></Link>
+                        <Link href={'/search'}><SearchIcon/></Link>
                         <NavButton onClick={() => setMobileNavActive(prev => !prev)}>
-                            <BarsIcon />
+                            <BarsIcon/>
                         </NavButton>
                     </SideIcons>
                 </Wrapper>

@@ -3,23 +3,33 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import Header from "../../components/Header";
 import Center from "../../components/Center";
-import ProductsGrid from "../../components/ProductsGrid";
 import {Category} from "../../models/Category";
 import {Product} from "../../models/Product";
 import Spinner from "../../components/Spinner";
+import ProductsAll from "../../components/ProductsAll";
+import {mongooseConnect} from "../../lib/mongoose";
+import {WishedProduct} from "../../models/WishedProduct";
+import {authOptions} from "../api/auth/[...nextauth]";
+import {getServerSession} from "next-auth";
 
 
 const CategoryHeader = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   h1{
     font-size:1.5em;
+    margin-right: 10px;
+    padding: 0;
+    margin-bottom: 0;
   }
 `;
 const FiltersWrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: 15px;
+  padding: 20px 0;
 `;
 const Filter = styled.div`
   background-color: #ddd;
@@ -36,7 +46,7 @@ const Filter = styled.div`
   }
 `;
 
-export default function CategoryPage({category,subCategories,products:originalProducts}) {
+export default function CategoryPage({category,subCategories,products:originalProducts, wishedProducts = []}) {
     const defaultSorting = '_id-desc';
     const defaultFilterValues = category.properties
         .map(p => ({name:p.name,value:'all'}));
@@ -45,6 +55,8 @@ export default function CategoryPage({category,subCategories,products:originalPr
     const [sort,setSort] = useState(defaultSorting);
     const [loadingProducts,setLoadingProducts] = useState(false);
     const [filtersChanged,setFiltersChanged] = useState(false);
+
+    console.log('products', products)
 
     function handleFilterChange(filterName, filterValue) {
         setFiltersValues(prev => {
@@ -117,7 +129,7 @@ export default function CategoryPage({category,subCategories,products:originalPr
                 {!loadingProducts && (
                     <div>
                         {products.length > 0 && (
-                            <ProductsGrid products={products} />
+                            <ProductsAll products={products} wishedProducts={wishedProducts} />
                         )}
                         {products.length === 0 && (
                             <div>Sorry, no products found</div>
@@ -130,15 +142,24 @@ export default function CategoryPage({category,subCategories,products:originalPr
 }
 
 export async function getServerSideProps(context) {
+    await mongooseConnect();
     const category = await Category.findById(context.query.id);
     const subCategories = await Category.find({parent:category._id});
     const catIds = [category._id, ...subCategories.map(c => c._id)];
     const products = await Product.find({category:catIds});
+    const session = await getServerSession(context.req, context.res, authOptions);
+    const wishedProducts = session?.user
+        ? await WishedProduct.find({
+            userEmail: session?.user.email,
+            product: products.map(p => p._id.toString()),
+        })
+        : [];
     return {
         props:{
             category: JSON.parse(JSON.stringify(category)),
             subCategories: JSON.parse(JSON.stringify(subCategories)),
             products: JSON.parse(JSON.stringify(products)),
+            wishedProducts: wishedProducts.map(i => i.product.toString()),
         }
     };
 }

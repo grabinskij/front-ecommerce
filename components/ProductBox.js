@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import Link from "next/link";
-import {useContext, useEffect, useState} from "react";
-import {CartContext} from "./CartContext";
+import {useState} from "react";
 import FlyingButton from "./FlyingButton";
 import HeartOutlineIcon from "./icons/HeartOutlineIcon";
 import HeartSolidIcon from "./icons/HeartSolidIcon";
@@ -76,9 +75,9 @@ const WishlistButton = styled.button`
   cursor: pointer;
   ${props => props.wished ? `
     color: red;
-  ` : `
-  color: black;
-  `}
+    ` : `
+    color: black;
+    `}
   svg{
     width: 16px;
   }

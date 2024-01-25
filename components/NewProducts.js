@@ -10,7 +10,17 @@ const Title =styled.h2`
 `;
 
 
-export default function NewProducts({products,wishedProducts, totalCount, totalPages,  prevPage, nextPage, page, isPageOutOfRange, pageNumbers }) {
+export default function NewProducts({
+                                        products,
+                                        wishedProducts,
+                                        totalCount,
+                                        totalPages,
+                                        prevPage,
+                                        nextPage,
+                                        page,
+                                        isPageOutOfRange,
+                                        pageNumbers
+                                    }) {
     return (
         <Center>
             <Title>New Arrivals</Title>

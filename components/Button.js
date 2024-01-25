@@ -64,6 +64,14 @@ export const ButtonStyle = css`
     border: 2px solid ${primary};
     color:${primary};
   `}
+  ${props => props.mobile && css`
+    font-size: 14px;
+    padding: 4px 12px;
+    @media screen and (min-width: 768px) {
+      font-size: 16px;
+      padding: 7px 20px;
+    }
+  `}
   ${props =>
       props.clicked &&
       css`
