@@ -7,6 +7,10 @@ import {WishedProduct} from "../models/WishedProduct";
 import {getServerSession} from "next-auth";
 import {authOptions} from "./api/auth/[...nextauth]";
 import {Setting} from "../models/Setting";
+import {useEffect, useState} from "react";
+import Spinner from "../components/Spinner";
+import HeaderPlaceholder from "../components/HeaderPlaceholder";
+import ContentPlaceholder from "../components/ContentPlaceholder";
 
 
 export default function Home({
@@ -22,21 +26,30 @@ export default function Home({
                                  pageNumbers
                              }) {
 
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setLoading(false);
+    }, []);
+
     return (
         <div>
-            <Header/>
-            <Featured product={featuredProduct}/>
-            <NewProducts
-                products={newProducts}
-                wishedProducts={wishedNewProducts}
-                totalCount={totalCount}
-                totalPages={totalPages}
-                prevPage={prevPage}
-                nextPage={nextPage}
-                page={page}
-                isPageOutOfRange={isPageOutOfRange}
-                pageNumbers={pageNumbers}
-            />
+            {loading ? <HeaderPlaceholder/> : <Header/>}
+            {loading && <Spinner fullWidth={true}/>}
+            {loading ? <ContentPlaceholder/> : <Featured product={featuredProduct}/>}
+            {loading ? <ContentPlaceholder/> : (
+                <NewProducts
+                    products={newProducts}
+                    wishedProducts={wishedNewProducts}
+                    totalCount={totalCount}
+                    totalPages={totalPages}
+                    prevPage={prevPage}
+                    nextPage={nextPage}
+                    page={page}
+                    isPageOutOfRange={isPageOutOfRange}
+                    pageNumbers={pageNumbers}
+                />
+            )}
         </div>
     )
 }

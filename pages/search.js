@@ -12,6 +12,8 @@ import {Product} from "../models/Product";
 import {getServerSession} from "next-auth";
 import {authOptions} from "./api/auth/[...nextauth]";
 import {WishedProduct} from "../models/WishedProduct";
+import HeaderPlaceholder from "../components/HeaderPlaceholder";
+import ContentPlaceholder from "../components/ContentPlaceholder";
 
 
 const SearchInput = styled(Input)`
@@ -51,27 +53,36 @@ export default function SearchPage({wishedProducts = []}) {
             });
     }
 
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setLoading(false);
+    }, []);
+
     return (
         <>
-            <Header/>
-            <Center>
-                <InputWrapper>
-                    <SearchInput
-                        autoFocus
-                        value={phrase}
-                        onChange={ev => setPhrase(ev.target.value)}
-                        placeholder="Search for products..."/>
-                </InputWrapper>
-                {!isLoading && phrase !== '' && products.length === 0 && (
-                    <h2>No products found for query "{phrase}"</h2>
-                )}
-                {isLoading && (
-                    <Spinner fullWidth={true}/>
-                )}
-                {!isLoading && products.length > 0 && (
-                    <ProductsAll products={products} wishedProducts={wishedProducts}/>
-                )}
-            </Center>
+            {loading ? <HeaderPlaceholder/> : <Header/>}
+            {loading && <Spinner fullWidth={true}/>}
+            {loading ? <ContentPlaceholder/> : (
+                <Center>
+                    <InputWrapper>
+                        <SearchInput
+                            autoFocus
+                            value={phrase}
+                            onChange={ev => setPhrase(ev.target.value)}
+                            placeholder="Search for products..."/>
+                    </InputWrapper>
+                    {!isLoading && phrase !== '' && products.length === 0 && (
+                        <h2>No products found for query "{phrase}"</h2>
+                    )}
+                    {isLoading && (
+                        <Spinner fullWidth={true}/>
+                    )}
+                    {!isLoading && products.length > 0 && (
+                        <ProductsAll products={products} wishedProducts={wishedProducts}/>
+                    )}
+                </Center>
+            )}
         </>
     );
 }
@@ -79,16 +90,16 @@ export default function SearchPage({wishedProducts = []}) {
 
 export async function getServerSideProps(context) {
     await mongooseConnect();
-    const products = await Product.find({}, null, {sort:{'_id':-1}});
+    const products = await Product.find({}, null, {sort: {'_id': -1}});
     const session = await getServerSession(context.req, context.res, authOptions);
     const wishedProducts = session?.user
         ? await WishedProduct.find({
-            userEmail:session?.user.email,
+            userEmail: session?.user.email,
             product: products.map(p => p._id.toString()),
         })
         : [];
     return {
-        props:{
+        props: {
             wishedProducts: wishedProducts.map(i => i.product.toString()),
         }
     };

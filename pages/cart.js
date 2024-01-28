@@ -9,6 +9,9 @@ import axios from "axios";
 import Table from "../components/Table";
 import {RevealWrapper} from "next-reveal";
 import {useSession} from "next-auth/react";
+import HeaderPlaceholder from "../components/HeaderPlaceholder";
+import Spinner from "../components/Spinner";
+import ContentPlaceholder from "../components/ContentPlaceholder";
 
 
 const ColumnsWrapper = styled.div`
@@ -20,18 +23,22 @@ const ColumnsWrapper = styled.div`
   gap: 40px;
   margin-top: 40px;
   margin-bottom: 40px;
+
   table thead tr th:nth-child(3),
   table tbody tr td:nth-child(3),
-  table tbody tr.subtotal td:nth-child(2){
+  table tbody tr.subtotal td:nth-child(2) {
     text-align: center;
   }
-  table tr.subtotal td{
+
+  table tr.subtotal td {
     padding: 15px 0;
   }
+
   table tbody tr.subtotal td:nth-child(2) {
     font-size: 20px;
   }
-  tr.total td{
+
+  tr.total td {
     font-weight: bold;
   }
 `;
@@ -91,15 +98,15 @@ const ProductAmount = styled.div`
   align-items: center;
   max-width: 30px;
   margin: 0 auto;
-@media screen and (min-width: 768px) {
-  flex-direction: row;
-}
+  @media screen and (min-width: 768px) {
+    flex-direction: row;
+  }
 `;
 
 
 export default function cartPage() {
     const {cartProducts, addProduct, removeProduct, clearCart} = useContext(CartContext);
-    const {data:session} = useSession();
+    const {data: session} = useSession();
     const [products, setProducts] = useState([]);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -186,106 +193,118 @@ export default function cartPage() {
             </>
         )
     }
+
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setLoading(false);
+    }, []);
+
     return (
         <>
-            <Header/>
-            <Center>
-                <ColumnsWrapper>
-                    <RevealWrapper delay={0}>
-                        <Box>
-                            <h2>Cart</h2>
-                            {!cartProducts?.length && (
-                                <div>Your cart is empty</div>
-                            )}
-                            {products?.length > 0 && (
-                                <Table>
-                                    <thead>
-                                    <tr>
-                                        <th>Product</th>
-                                        <th>Quantity</th>
-                                        <th>Price</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {products.map(product => (
-                                        <tr key={product._id}>
-                                            <ProductInfoCell>
-                                                <ProductImageBox>
-                                                    <img src={product.images[0]} alt=""/>
-                                                </ProductImageBox>
-                                                {product.title}
-                                            </ProductInfoCell>
-                                            <td>
-                                                <ProductAmount>
-                                                    <Button mobile onClick={() => lessOfThisProduct(product._id)}>-</Button>
-                                                    <QuantityLabel>
-                                                        {cartProducts.filter(id => id === product._id).length}
-                                                    </QuantityLabel>
-                                                    <Button mobile onClick={() => moreOfThisProduct(product._id)}>+</Button>
-                                                </ProductAmount>
-                                            </td>
-                                            <td>${cartProducts.filter(id => id === product._id).length * product.price}</td>
-                                        </tr>
-                                    ))}
-                                    <tr className="subtotal">
-                                        <td colSpan={2}>Products</td>
-                                        <td>${productsTotal}</td>
-                                    </tr>
-                                    <tr className="subtotal">
-                                        <td colSpan={2}>Shipping</td>
-                                        <td>${shippingFee}</td>
-                                    </tr>
-                                    <tr className="subtotal total">
-                                        <td colSpan={2}>Total</td>
-                                        <td>${productsTotal + parseInt(shippingFee || 0)}</td>
-                                    </tr>
-                                    </tbody>
-                                </Table>
-                            )}
-                        </Box>
-                    </RevealWrapper>
-                    {!!cartProducts?.length && (
-                        <RevealWrapper delay={100}>
+            {loading ? <HeaderPlaceholder/> : <Header/>}
+            {loading && <Spinner fullWidth={true}/>}
+            {loading ? <ContentPlaceholder/> : (
+                <Center>
+                    <ColumnsWrapper>
+                        <RevealWrapper delay={0}>
                             <Box>
-                                <h2>Order information</h2>
-                                <Input type="text"
-                                       placeholder="Name"
-                                       value={name}
-                                       name="name"
-                                       onChange={ev => setName(ev.target.value)}/>
-                                <Input type="text"
-                                       placeholder="Email"
-                                       value={email}
-                                       name="email"
-                                       onChange={ev => setEmail(ev.target.value)}/>
-                                <CityHolder>
-                                    <Input type="text"
-                                           placeholder="City"
-                                           value={city}
-                                           name="city"
-                                           onChange={ev => setCity(ev.target.value)}/>
-                                    <Input type="text"
-                                           placeholder="Postal Code"
-                                           value={postalCode}
-                                           name="postalCode"
-                                           onChange={ev => setPostalCode(ev.target.value)}/>
-                                </CityHolder>
-                                <Input type="text"
-                                       placeholder="Street Address"
-                                       value={streetAddress}
-                                       name="streetAddress"
-                                       onChange={ev => setStreetAddress(ev.target.value)}/>
-                                <Input type="text"
-                                       placeholder="Country"
-                                       value={country}
-                                       name="country"
-                                       onChange={ev => setCountry(ev.target.value)}/>
-                                <Button black block onClick={goToPayment}>Continue to payment</Button>
+                                <h2>Cart</h2>
+                                {!cartProducts?.length && (
+                                    <div>Your cart is empty</div>
+                                )}
+                                {products?.length > 0 && (
+                                    <Table>
+                                        <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Quantity</th>
+                                            <th>Price</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {products.map(product => (
+                                            <tr key={product._id}>
+                                                <ProductInfoCell>
+                                                    <ProductImageBox>
+                                                        <img src={product.images[0]} alt=""/>
+                                                    </ProductImageBox>
+                                                    {product.title}
+                                                </ProductInfoCell>
+                                                <td>
+                                                    <ProductAmount>
+                                                        <Button mobile
+                                                                onClick={() => lessOfThisProduct(product._id)}>-</Button>
+                                                        <QuantityLabel>
+                                                            {cartProducts.filter(id => id === product._id).length}
+                                                        </QuantityLabel>
+                                                        <Button mobile
+                                                                onClick={() => moreOfThisProduct(product._id)}>+</Button>
+                                                    </ProductAmount>
+                                                </td>
+                                                <td>${cartProducts.filter(id => id === product._id).length * product.price}</td>
+                                            </tr>
+                                        ))}
+                                        <tr className="subtotal">
+                                            <td colSpan={2}>Products</td>
+                                            <td>${productsTotal}</td>
+                                        </tr>
+                                        <tr className="subtotal">
+                                            <td colSpan={2}>Shipping</td>
+                                            <td>${shippingFee}</td>
+                                        </tr>
+                                        <tr className="subtotal total">
+                                            <td colSpan={2}>Total</td>
+                                            <td>${productsTotal + parseInt(shippingFee || 0)}</td>
+                                        </tr>
+                                        </tbody>
+                                    </Table>
+                                )}
                             </Box>
                         </RevealWrapper>
-                    )}
-                </ColumnsWrapper>
-            </Center>
+                        {!!cartProducts?.length && (
+                            <RevealWrapper delay={100}>
+                                <Box>
+                                    <h2>Order information</h2>
+                                    <Input type="text"
+                                           placeholder="Name"
+                                           value={name}
+                                           name="name"
+                                           onChange={ev => setName(ev.target.value)}/>
+                                    <Input type="text"
+                                           placeholder="Email"
+                                           value={email}
+                                           name="email"
+                                           onChange={ev => setEmail(ev.target.value)}/>
+                                    <CityHolder>
+                                        <Input type="text"
+                                               placeholder="City"
+                                               value={city}
+                                               name="city"
+                                               onChange={ev => setCity(ev.target.value)}/>
+                                        <Input type="text"
+                                               placeholder="Postal Code"
+                                               value={postalCode}
+                                               name="postalCode"
+                                               onChange={ev => setPostalCode(ev.target.value)}/>
+                                    </CityHolder>
+                                    <Input type="text"
+                                           placeholder="Street Address"
+                                           value={streetAddress}
+                                           name="streetAddress"
+                                           onChange={ev => setStreetAddress(ev.target.value)}/>
+                                    <Input type="text"
+                                           placeholder="Country"
+                                           value={country}
+                                           name="country"
+                                           onChange={ev => setCountry(ev.target.value)}/>
+                                    <Button black block onClick={goToPayment}>Continue to payment</Button>
+                                </Box>
+                            </RevealWrapper>
+                        )}
+                    </ColumnsWrapper>
+                </Center>
+            )}
         </>
     )
 }

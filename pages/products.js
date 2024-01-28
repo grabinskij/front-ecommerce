@@ -7,7 +7,16 @@ import {getServerSession} from "next-auth";
 import {authOptions} from "./api/auth/[...nextauth]";
 import {WishedProduct} from "../models/WishedProduct";
 import ProductsGrid from "../components/ProductsGrid";
+import {useEffect, useState} from "react";
+import Spinner from "../components/Spinner";
+import HeaderPlaceholder from "../components/HeaderPlaceholder";
+import ContentPlaceholder from "../components/ContentPlaceholder";
 
+
+const TitlePlaceholder = () => (
+    <div style={{width: '100%', height: '50px', backgroundColor: '#f0f0f0'}}>
+    </div>
+);
 
 export default function ProductsPage({
                                          products,
@@ -19,21 +28,31 @@ export default function ProductsPage({
                                          isPageOutOfRange,
                                          pageNumbers
                                      }) {
+
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setLoading(false);
+    }, []);
+
     return (
         <>
-            <Header/>
+            {loading ? <HeaderPlaceholder/> : <Header/>}
             <Center>
-                <Title>All products</Title>
-                <ProductsGrid
-                    products={products}
-                    wishedProducts={wishedProducts}
-                    totalPages={totalPages}
-                    prevPage={prevPage}
-                    nextPage={nextPage}
-                    page={page}
-                    isPageOutOfRange={isPageOutOfRange}
-                    pageNumbers={pageNumbers}
-                />
+                {loading ? <TitlePlaceholder/> : <Title>All products</Title>}
+                {loading && <Spinner fullWidth={true}/>}
+                {loading ? <ContentPlaceholder/> : (
+                    <ProductsGrid
+                        products={products}
+                        wishedProducts={wishedProducts}
+                        totalPages={totalPages}
+                        prevPage={prevPage}
+                        nextPage={nextPage}
+                        page={page}
+                        isPageOutOfRange={isPageOutOfRange}
+                        pageNumbers={pageNumbers}
+                    />
+                )}
             </Center>
         </>
     );

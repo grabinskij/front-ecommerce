@@ -10,6 +10,10 @@ import {getServerSession} from "next-auth";
 import {authOptions} from "./api/auth/[...nextauth]";
 import {WishedProduct} from "../models/WishedProduct";
 import {mongooseConnect} from "../lib/mongoose";
+import {useEffect, useState} from "react";
+import Spinner from "../components/Spinner";
+import HeaderPlaceholder from "../components/HeaderPlaceholder";
+import ContentPlaceholder from "../components/ContentPlaceholder";
 
 
 const CategoryGrid = styled.div`
@@ -54,35 +58,43 @@ const ShowAllSquare = styled(Link)`
 `;
 
 export default function CategoriesPage({mainCategories, categoriesProducts, wishedProducts = []}) {
-    console.log("wishedProducts",  wishedProducts)
+
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setLoading(false);
+    }, []);
 
     return (
         <>
-            <Header/>
-            <Center>
-                {mainCategories.map(cat => (
-                    <CategoryWrapper key={cat._id}>
-                        <CategoryTitle>
-                            <h2>{cat.name}</h2>
-                            <div>
-                                <Link href={'/category/' + cat._id}>Show all</Link>
-                            </div>
-                        </CategoryTitle>
-                        <CategoryGrid>
-                            {categoriesProducts[cat._id].map((p, index) => (
-                                <RevealWrapper key={p._id} delay={index * 50}>
-                                    <ProductBox {...p} wished={wishedProducts.includes(p._id)}/>
+            {loading ? <HeaderPlaceholder/> : <Header/>}
+            {loading && <Spinner fullWidth={true}/>}
+            {loading ? <ContentPlaceholder/> : (
+                <Center>
+                    {mainCategories.map(cat => (
+                        <CategoryWrapper key={cat._id}>
+                            <CategoryTitle>
+                                <h2>{cat.name}</h2>
+                                <div>
+                                    <Link href={'/category/' + cat._id}>Show all</Link>
+                                </div>
+                            </CategoryTitle>
+                            <CategoryGrid>
+                                {categoriesProducts[cat._id].map((p, index) => (
+                                    <RevealWrapper key={p._id} delay={index * 50}>
+                                        <ProductBox {...p} wished={wishedProducts.includes(p._id)}/>
+                                    </RevealWrapper>
+                                ))}
+                                <RevealWrapper delay={categoriesProducts[cat._id].length * 50}>
+                                    <ShowAllSquare href={'/category/' + cat._id}>
+                                        Show all &rarr;
+                                    </ShowAllSquare>
                                 </RevealWrapper>
-                            ))}
-                            <RevealWrapper delay={categoriesProducts[cat._id].length * 50}>
-                                <ShowAllSquare href={'/category/' + cat._id}>
-                                    Show all &rarr;
-                                </ShowAllSquare>
-                            </RevealWrapper>
-                        </CategoryGrid>
-                    </CategoryWrapper>
-                ))}
-            </Center>
+                            </CategoryGrid>
+                        </CategoryWrapper>
+                    ))}
+                </Center>
+            )}
         </>
     );
 }

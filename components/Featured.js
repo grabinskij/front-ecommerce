@@ -73,6 +73,7 @@ const ImgColumn = styled(Column)`
 `;
 const ContentWrapper = styled.div`
 `;
+
 export default function Featured({product}) {
     return (
         <Bg>

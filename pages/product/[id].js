@@ -9,6 +9,10 @@ import Title from "../../components/Title";
 import ProductImages from "../../components/ProductImages";
 import FlyingButton from "../../components/FlyingButton";
 import ProductReviews from "../../components/ProductReviews";
+import {useEffect, useState} from "react";
+import HeaderPlaceholder from "../../components/HeaderPlaceholder";
+import Spinner from "../../components/Spinner";
+import ContentPlaceholder from "../../components/ContentPlaceholder";
 
 
 const ColWrapper = styled.div`
@@ -30,31 +34,41 @@ const Price = styled.span`
 `;
 
 export default function ProductPage({product}) {
+
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setLoading(false);
+    }, []);
+
     return (
         <>
-            <Header />
-            <Center>
-                <ColWrapper>
-                    <WhiteBox>
-                        <ProductImages images={product.images} />
-                    </WhiteBox>
-                    <div>
-                        <Title>{product.title}</Title>
-                        <p>{product.description}</p>
-                        <PriceRow>
-                            <div>
-                                <Price>${product.price}</Price>
-                            </div>
-                            <div>
-                                <FlyingButton main _id={product._id} src={product.images?.[0]}>
-                                    <CartIcon />Add to cart
-                                </FlyingButton>
-                            </div>
-                        </PriceRow>
-                    </div>
-                </ColWrapper>
-                <ProductReviews product={product} />
-            </Center>
+            {loading ? <HeaderPlaceholder/> : <Header/>}
+            {loading && <Spinner fullWidth={true}/>}
+            {loading ? <ContentPlaceholder/> : (
+                <Center>
+                    <ColWrapper>
+                        <WhiteBox>
+                            <ProductImages images={product.images}/>
+                        </WhiteBox>
+                        <div>
+                            <Title>{product.title}</Title>
+                            <p>{product.description}</p>
+                            <PriceRow>
+                                <div>
+                                    <Price>${product.price}</Price>
+                                </div>
+                                <div>
+                                    <FlyingButton main _id={product._id} src={product.images?.[0]}>
+                                        <CartIcon/>Add to cart
+                                    </FlyingButton>
+                                </div>
+                            </PriceRow>
+                        </div>
+                    </ColWrapper>
+                    <ProductReviews product={product}/>
+                </Center>
+            )}
         </>
     );
 }
