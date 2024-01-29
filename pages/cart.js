@@ -104,7 +104,7 @@ const ProductAmount = styled.div`
 `;
 
 
-export default function cartPage() {
+export default function CartPage() {
     const {cartProducts, addProduct, removeProduct, clearCart} = useContext(CartContext);
     const {data: session} = useSession();
     const [products, setProducts] = useState([]);

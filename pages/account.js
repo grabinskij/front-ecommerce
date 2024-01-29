@@ -212,8 +212,8 @@ export default function AccountPage() {
 
                                                     <WishedProductGrid>
                                                         {wishedProducts.length > 0 && wishedProducts.map(wp => (
-                                                            <ProductBoxWrapper>
-                                                                <ProductBox key={wp._id} {...wp} wished={true}
+                                                            <ProductBoxWrapper key={wp._id}>
+                                                                <ProductBox {...wp} wished={true}
                                                                             onRemoveFromWishList={productRemovedFromWishList}
                                                                 />
                                                             </ProductBoxWrapper>
