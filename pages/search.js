@@ -36,6 +36,12 @@ export default function SearchPage({wishedProducts = []}) {
     const debouncedSearch = useCallback(
         debounce(searchProducts, 500), []
     );
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setLoading(false);
+    }, []);
+
     useEffect(() => {
         if (phrase.length > 0) {
             setIsLoading(true);
@@ -52,12 +58,6 @@ export default function SearchPage({wishedProducts = []}) {
                 setIsLoading(false);
             });
     }
-
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        setLoading(false);
-    }, []);
 
     return (
         <>

@@ -59,6 +59,11 @@ export default function CategoryPage({category, subCategories, products: origina
     const [sort, setSort] = useState(defaultSorting);
     const [loadingProducts, setLoadingProducts] = useState(false);
     const [filtersChanged, setFiltersChanged] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setLoading(false);
+    }, []);
 
 
     function handleFilterChange(filterName, filterValue) {
@@ -92,11 +97,6 @@ export default function CategoryPage({category, subCategories, products: origina
         })
     }, [filtersValues, sort, filtersChanged]);
 
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        setLoading(false);
-    }, []);
 
     return (
         <>

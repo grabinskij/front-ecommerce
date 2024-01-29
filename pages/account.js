@@ -66,6 +66,11 @@ export default function AccountPage() {
     const [wishedProducts, setWishedProducts] = useState([]);
     const [activeTab, setActiveTab] = useState('Orders');
     const [orders, setOrders] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setLoading(false);
+    }, []);
 
     async function logOut() {
         await signOut({
@@ -113,12 +118,6 @@ export default function AccountPage() {
             return [...products.filter(p => p._id.toString() !== idToRemove)]
         })
     }
-
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        setLoading(false);
-    }, []);
 
     return (
         <>

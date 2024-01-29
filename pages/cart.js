@@ -116,6 +116,12 @@ export default function CartPage() {
     const [country, setCountry] = useState('');
     const [isSuccess, setIsSuccess] = useState(false);
     const [shippingFee, setShippingFee] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setLoading(false);
+    }, []);
+
 
     useEffect(() => {
         if (cartProducts.length > 0) {
@@ -193,12 +199,6 @@ export default function CartPage() {
             </>
         )
     }
-
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        setLoading(false);
-    }, []);
 
     return (
         <>
