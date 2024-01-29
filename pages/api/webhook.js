@@ -27,7 +27,7 @@ export default async function handler(req,res) {
             console.log(data, data.payment_status);
             if(orderId && paid){
                await Order.findByIdAndUpdate(orderId, {
-                    paid: true,
+                    paid:true,
                 })
             }
             break;
