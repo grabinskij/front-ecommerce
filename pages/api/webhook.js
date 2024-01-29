@@ -24,7 +24,6 @@ export default async function handler(req,res) {
             const data = event.data.object;
             const orderId = data.metadata.orderId;
             const paid = data.payment_status === 'paid';
-            console.log(data, data.payment_status);
             if(orderId && paid){
                await Order.findByIdAndUpdate(orderId, {
                     paid:true,
