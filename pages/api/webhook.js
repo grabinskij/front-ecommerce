@@ -26,7 +26,7 @@ export default async function handler(req,res) {
             const paid = data.payment_status === 'paid';
             if(orderId && paid){
                await Order.findByIdAndUpdate(orderId, {
-                    paid:true,
+                    paid:true
                 })
             }
             break;
