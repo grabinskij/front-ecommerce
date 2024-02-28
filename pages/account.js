@@ -14,6 +14,8 @@ import Tabs from "../components/Tabs";
 import Order from "../components/Order";
 import HeaderPlaceholder from "../components/HeaderPlaceholder";
 import ContentPlaceholder from "../components/ContentPlaceholder";
+import FooterPlaceholder from "../components/FooterPlaceholder";
+import Footer from "../components/Footer";
 
 
 const ColsWrapper = styled.div`
@@ -238,6 +240,7 @@ export default function AccountPage() {
                     </ColsWrapper>
                 </Center>
             )}
+            {loading ? <FooterPlaceholder/> : <Footer/>}
         </>
     )
 }

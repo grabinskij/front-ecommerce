@@ -14,6 +14,8 @@ import {authOptions} from "./api/auth/[...nextauth]";
 import {WishedProduct} from "../models/WishedProduct";
 import HeaderPlaceholder from "../components/HeaderPlaceholder";
 import ContentPlaceholder from "../components/ContentPlaceholder";
+import FooterPlaceholder from "../components/FooterPlaceholder";
+import Footer from "../components/Footer";
 
 
 const SearchInput = styled(Input)`
@@ -83,6 +85,7 @@ export default function SearchPage({wishedProducts = []}) {
                     )}
                 </Center>
             )}
+            {loading ? <FooterPlaceholder/> : <Footer/>}
         </>
     );
 }

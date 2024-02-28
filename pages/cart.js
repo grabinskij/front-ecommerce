@@ -12,6 +12,8 @@ import {useSession} from "next-auth/react";
 import HeaderPlaceholder from "../components/HeaderPlaceholder";
 import Spinner from "../components/Spinner";
 import ContentPlaceholder from "../components/ContentPlaceholder";
+import FooterPlaceholder from "../components/FooterPlaceholder";
+import Footer from "../components/Footer";
 
 
 const ColumnsWrapper = styled.div`
@@ -23,6 +25,7 @@ const ColumnsWrapper = styled.div`
   gap: 40px;
   margin-top: 40px;
   margin-bottom: 40px;
+
 
   table thead tr th:nth-child(3),
   table tbody tr td:nth-child(3),
@@ -305,6 +308,7 @@ export default function CartPage() {
                     </ColumnsWrapper>
                 </Center>
             )}
+            {loading ? <FooterPlaceholder/> : <Footer/>}
         </>
     )
 }

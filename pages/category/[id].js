@@ -13,6 +13,8 @@ import {authOptions} from "../api/auth/[...nextauth]";
 import {getServerSession} from "next-auth";
 import HeaderPlaceholder from "../../components/HeaderPlaceholder";
 import ContentPlaceholder from "../../components/ContentPlaceholder";
+import FooterPlaceholder from "../../components/FooterPlaceholder";
+import Footer from "../../components/Footer";
 
 
 const CategoryHeader = styled.div`
@@ -151,6 +153,7 @@ export default function CategoryPage({category, subCategories, products: origina
                     )}
                 </Center>
             )}
+            {loading ? <FooterPlaceholder/> : <Footer/>}
         </>
     );
 }

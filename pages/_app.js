@@ -11,6 +11,11 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
     font-family: 'Roboto', sans-serif;
   }
+  #__next {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
   hr{
     display: block;
     border: 0;

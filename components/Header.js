@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styled from "styled-components";
 import Center from "./Center";
-import {useContext, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import {CartContext} from "./CartContext";
 import BarsIcon from "./icons/Bars";
 import SearchIcon from "./icons/SearchIcon";
@@ -10,6 +10,7 @@ import {usePathname} from "next/navigation";
 
 const StyledHeader = styled.header`
   background-color: #0286ee;
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 10;
@@ -46,7 +47,7 @@ const StyledNav = styled.nav`
   left: 0;
   right: 0;
   padding: 70px 20px 20px;
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 820px) {
     display: flex;
     position: static;
     padding: 0;
@@ -64,7 +65,7 @@ const NavLink = styled(Link)`
   svg {
     height: 20px;
   }
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 820px) {
     opacity: ${props =>
             props.href === props.currentPath ? "0.7" : "1"};
     padding: 0;
@@ -83,7 +84,7 @@ const NavButton = styled.button`
   position: relative;
   background-color: ${primary};
   z-index: 3;
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 820px) {
     display: none;
   }
 `;
@@ -109,6 +110,7 @@ export default function Header() {
     const {cartProducts} = useContext(CartContext);
     const [mobileNavActive, setMobileNavActive] = useState(false);
 
+
     return (
         <StyledHeader>
             <Center>
@@ -121,6 +123,8 @@ export default function Header() {
                         <NavLink href={'/products'} currentPath={currentPath}>All products</NavLink>
                         <NavLink href={'/categories'} currentPath={currentPath}>Categories</NavLink>
                         <NavLink href={'/account'} currentPath={currentPath}>Account</NavLink>
+                        <NavLink href={'/legal-notice'} currentPath={currentPath}>Legal notice</NavLink>
+                        <NavLink href={'/privacy-policy'} currentPath={currentPath}>Privacy policy</NavLink>
                         <NavLink href={'/cart'} currentPath={currentPath}>Cart ({cartProducts.length})</NavLink>
                     </StyledNav>
                     <SideIcons>

@@ -13,6 +13,8 @@ import {useEffect, useState} from "react";
 import HeaderPlaceholder from "../../components/HeaderPlaceholder";
 import Spinner from "../../components/Spinner";
 import ContentPlaceholder from "../../components/ContentPlaceholder";
+import FooterPlaceholder from "../../components/FooterPlaceholder";
+import Footer from "../../components/Footer";
 
 
 const ColWrapper = styled.div`
@@ -69,6 +71,7 @@ export default function ProductPage({product}) {
                     <ProductReviews product={product}/>
                 </Center>
             )}
+            {loading ? <FooterPlaceholder/> : <Footer/>}
         </>
     );
 }

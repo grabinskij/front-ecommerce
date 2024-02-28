@@ -11,6 +11,8 @@ import {useEffect, useState} from "react";
 import Spinner from "../components/Spinner";
 import HeaderPlaceholder from "../components/HeaderPlaceholder";
 import ContentPlaceholder from "../components/ContentPlaceholder";
+import FooterPlaceholder from "../components/FooterPlaceholder";
+import Footer from "../components/Footer";
 
 
 const TitlePlaceholder = () => (
@@ -54,6 +56,7 @@ export default function ProductsPage({
                     />
                 )}
             </Center>
+            {loading ? <FooterPlaceholder/> : <Footer/>}
         </>
     );
 }
