@@ -6,8 +6,9 @@ import HeartOutlineIcon from "./icons/HeartOutlineIcon";
 import HeartSolidIcon from "./icons/HeartSolidIcon";
 import axios from "axios";
 import {useSession} from "next-auth/react";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import {withSwal} from "react-sweetalert2";
+// import { ToastContainer, toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 
 
 const ProductWrapper = styled.div`
@@ -86,9 +87,16 @@ const WishlistButton = styled.button`
   }
 `;
 
-export default function ProductBox({_id, title, description, price, images, wished= false,
-                                    onRemoveFromWishList=()=>{},
-                                   }) {
+function ProductBox({
+                      _id,
+                      title,
+                      price,
+                      images,
+                      wished= false,
+                      swal,
+                      onRemoveFromWishList=()=>{},
+                    }) {
+
     const url = '/product/'+_id;
     const [isWished, setIsWished] = useState(wished);
     const { data: session } = useSession();
@@ -112,15 +120,9 @@ export default function ProductBox({_id, title, description, price, images, wish
     function addToWishlistWarning(e) {
         e.preventDefault();
         e.stopPropagation();
-        toast.info("To add items to your wish list, please log in", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        });
+        swal.fire({
+            title: 'To add items to your wish list, please log in',
+        })
     }
 
     return (
@@ -149,8 +151,8 @@ export default function ProductBox({_id, title, description, price, images, wish
                     <FlyingButton _id={_id} src={images?.[0]}>Add to cart</FlyingButton>
                 </PriceRow>
             </ProductInfoBox>
-            <ToastContainer />
         </ProductWrapper>
     )
 }
 
+export default withSwal(ProductBox);

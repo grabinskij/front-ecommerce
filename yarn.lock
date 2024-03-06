@@ -820,13 +820,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"clsx@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "clsx@npm:2.1.0"
-  checksum: c09c00ad14f638366ca814097e6cab533dfa1972a358da5b557be487168acbb25b4c1395e89ffa842a8a61ba87a462d2b4885bc9d4f8410b598f3cb339599cdb
-  languageName: node
-  linkType: hard
-
 "color-convert@npm:^2.0.1":
   version: 2.0.1
   resolution: "color-convert@npm:2.0.1"
@@ -1536,7 +1529,7 @@ __metadata:
     react-flying-item: "npm:1.1.3"
     react-helmet: "npm:^6.1.0"
     react-spinners: "npm:^0.13.8"
-    react-toastify: "npm:^10.0.4"
+    react-sweetalert2: "npm:^0.6.0"
     stripe: "npm:^14.5.0"
     styled-components: "npm:^6.1.1"
   languageName: unknown
@@ -3001,15 +2994,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-toastify@npm:^10.0.4":
-  version: 10.0.4
-  resolution: "react-toastify@npm:10.0.4"
+"react-sweetalert2@npm:^0.6.0":
+  version: 0.6.0
+  resolution: "react-sweetalert2@npm:0.6.0"
   dependencies:
-    clsx: "npm:^2.1.0"
+    sweetalert2: "npm:^11.7.5"
   peerDependencies:
-    react: ">=16"
-    react-dom: ">=16"
-  checksum: 3d31edf81e8b394fd0085615fd7ba9fb9546c7cdae56e5334df67b58d65450c73af14a8fc163f19ceed03cfee7a344d1af1489422536f52c9516ca45e9b61a37
+    react: ^18.2.0
+    react-dom: ^18.2.0
+  checksum: 691df0a6dc4b7afb52f5c561bac723e1dba6daafa8ed58a34afd24acfb72e9e6c5738e1fd0026f3994866bc08534a1d8ac241dc9e007bf51d861ad2c9371ed8d
   languageName: node
   linkType: hard
 
@@ -3485,6 +3478,13 @@ __metadata:
   version: 1.0.0
   resolution: "supports-preserve-symlinks-flag@npm:1.0.0"
   checksum: 6c4032340701a9950865f7ae8ef38578d8d7053f5e10518076e6554a9381fa91bd9c6850193695c141f32b21f979c985db07265a758867bac95de05f7d8aeb39
+  languageName: node
+  linkType: hard
+
+"sweetalert2@npm:^11.7.5":
+  version: 11.10.6
+  resolution: "sweetalert2@npm:11.10.6"
+  checksum: a2536f84bbbea4b07c32789209e91c4ca26c91027364d3916b85239f312d8e664b52bbac9a679af178d2c70e3371a0bb8bb24568463fd356b597b67f314b2ad2
   languageName: node
   linkType: hard
 
