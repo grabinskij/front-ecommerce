@@ -5,6 +5,9 @@ import FlyingButton from "./FlyingButton";
 import HeartOutlineIcon from "./icons/HeartOutlineIcon";
 import HeartSolidIcon from "./icons/HeartSolidIcon";
 import axios from "axios";
+import {useSession} from "next-auth/react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const ProductWrapper = styled.div`
@@ -88,7 +91,12 @@ export default function ProductBox({_id, title, description, price, images, wish
                                    }) {
     const url = '/product/'+_id;
     const [isWished, setIsWished] = useState(wished);
-    function addToWishlist(e) {
+    const { data: session } = useSession();
+
+
+
+
+    async function addToWishlist(e) {
         e.preventDefault();
         e.stopPropagation();
         const nextValue = !isWished;
@@ -101,13 +109,34 @@ export default function ProductBox({_id, title, description, price, images, wish
         setIsWished(nextValue);
     }
 
+    function addToWishlistWarning(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        toast.info("To add items to your wish list, please log in", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    }
+
     return (
         <ProductWrapper>
             <WhiteBox href={url}>
                 <div>
-                    <WishlistButton wished={isWished} onClick={addToWishlist}>
-                        {isWished ? <HeartSolidIcon /> : <HeartOutlineIcon />}
-                    </WishlistButton>
+                    {session && (
+                        <WishlistButton wished={isWished} onClick={addToWishlist}>
+                            {isWished ? <HeartSolidIcon /> : <HeartOutlineIcon />}
+                        </WishlistButton>
+                    )}
+                    {!session && (
+                        <WishlistButton onClick={addToWishlistWarning}>
+                            <HeartOutlineIcon />
+                        </WishlistButton>
+                    )}
                     <img src={images?.[0]} alt="img"/>
                 </div>
             </WhiteBox>
@@ -120,6 +149,7 @@ export default function ProductBox({_id, title, description, price, images, wish
                     <FlyingButton _id={_id} src={images?.[0]}>Add to cart</FlyingButton>
                 </PriceRow>
             </ProductInfoBox>
+            <ToastContainer />
         </ProductWrapper>
     )
 }

@@ -105,9 +105,31 @@ const ProductAmount = styled.div`
     flex-direction: row;
   }
 `;
+const WarningMessage = styled.p`
+  display: flex;
+  justify-content: start;
+  margin-top: 1rem;
+  font-size: 0.6rem;
+  span{
+    color: red;
+    margin-right: 2px;
+  }
+`;
 
+const StyledWarningText = styled.p`
+  color: red;
+  font-size: 0.9rem;
+  span {
+    color: #0260c4;
+    text-decoration: underline;
+    cursor: pointer;
+    &:hover {
+      color: #3784d3;
+    }
+  }
+`;
 
-export default function CartPage() {
+export default function CartPage({setPopupVisible, consentGiven}) {
     const {cartProducts, addProduct, removeProduct, clearCart} = useContext(CartContext);
     const {data: session} = useSession();
     const [products, setProducts] = useState([]);
@@ -185,6 +207,10 @@ export default function CartPage() {
     for (const productId of cartProducts) {
         const price = products.find(p => p._id === productId)?.price || 0;
         productsTotal += price;
+    }
+
+    function openPopup() {
+        setPopupVisible(prev => !prev);
     }
 
     if (isSuccess) {
@@ -301,7 +327,17 @@ export default function CartPage() {
                                            value={country}
                                            name="country"
                                            onChange={ev => setCountry(ev.target.value)}/>
-                                    <Button black block onClick={goToPayment}>Continue to payment</Button>
+
+                                    {consentGiven ? (
+                                        <Button black block onClick={goToPayment}>Continue to payment</Button>
+                                    ) : (
+                                        <StyledWarningText>During submitting, this form uses cookies. To proceed with fake payment in test mode, please accept
+                                            the <span onClick={openPopup}>cookie usage agreement</span> and other privacy settings.
+                                        </StyledWarningText>
+                                    )}
+
+
+                                    <WarningMessage><span>*</span>Payment is not real! Only in test mode!</WarningMessage>
                                 </Box>
                             </RevealWrapper>
                         )}

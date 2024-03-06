@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import ButtonHome from "../components/ButtonHome";
 import Header from "../components/Header";
 import HeaderPlaceholder from "../components/HeaderPlaceholder";
@@ -139,11 +140,19 @@ const StyledH5 = styled.h5`
 `;
 
 export default function LegalNotice() {
+    const router = useRouter();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         setLoading(false);
-    }, []);
+        if (!loading && router.asPath.includes('#terms-de')) {
+            const target = document.getElementById('terms-de');
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    }, [loading, router]);
+
     return (
         <>
             {loading ? <HeaderPlaceholder/> : <Header/>}

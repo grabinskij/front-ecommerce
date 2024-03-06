@@ -48,21 +48,33 @@ export const ButtonStyle = css`
   ${props => props.black && !props.outline && css`
     background-color: #000;
     color: #fff;
+    &:hover{
+      opacity: 0.7;
+    }
   `}
   ${props => props.black && props.outline && css`
     background-color: transparent;
     color: #000;
     border: 1px solid #000;
+    &:hover{
+      opacity: 0.7;
+    }
   `}
   ${props => props.primary && !props.outline && css`
     background-color: ${primary};
     border: 2px solid ${primary};
     color:#fff;
+    &:hover{
+      opacity: 0.7;
+    }
   `}
   ${props => props.primary && props.outline && css`
     background-color: transparent;
     border: 2px solid ${primary};
     color:${primary};
+    &:hover{
+      opacity: 0.7;
+    }
   `}
   ${props => props.mobile && css`
     font-size: 14px;

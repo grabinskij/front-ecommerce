@@ -54,7 +54,28 @@ const WishedProductGrid = styled.div`
   }
 `;
 
-export default function AccountPage() {
+const StyledWarning = styled.p`
+  color: red;
+  span {
+    color: #0260c4;
+    text-decoration: underline;
+    cursor: pointer;
+    &:hover {
+      color: #3784d3;
+    }
+  }
+`;
+const LogoutButtonWrapper = styled.p`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  p{
+    color: green;
+  }
+`;
+
+
+export default function AccountPage({consentGiven, setPopupVisible}) {
     const {data: session} = useSession();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -69,6 +90,7 @@ export default function AccountPage() {
     const [activeTab, setActiveTab] = useState('Orders');
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [isSavedAddress, setIsSavedAddress] = useState(false);
 
     useEffect(() => {
         setLoading(false);
@@ -87,6 +109,7 @@ export default function AccountPage() {
     function saveAddress() {
         const data = {name, email, city, streetAddress, postalCode, country}
         axios.put('/api/address', data)
+        setIsSavedAddress(true);
     }
 
     useEffect(() => {
@@ -119,6 +142,10 @@ export default function AccountPage() {
         setWishedProducts(products => {
             return [...products.filter(p => p._id.toString() !== idToRemove)]
         })
+    }
+
+    function openPopup() {
+        setPopupVisible(prev => !prev);
     }
 
     return (
@@ -173,12 +200,23 @@ export default function AccountPage() {
                                             <hr/>
                                         </>
                                     )}
-                                    {session && (
-                                        <Button primary onClick={logOut}>Logout</Button>
-                                    )}
-                                    {!session && (
+                                    <LogoutButtonWrapper>
+                                        {session && (
+                                            <Button primary onClick={logOut}>Logout</Button>
+                                        )}
+                                        {session && isSavedAddress &&(
+                                            <p>Saved!</p>
+                                        )}
+                                    </LogoutButtonWrapper>
+                                    {!session && consentGiven && (
                                         <Button primary onClick={logIn}>Login</Button>
                                     )}
+                                    {!session && !consentGiven && (
+                                        <StyledWarning>During submitting, this form uses cookies. To proceed with log in, please accept
+                                            the <span onClick={openPopup}>cookie usage agreement</span> and other privacy settings.
+                                        </StyledWarning>
+                                    )}
+
                                 </WhiteBox>
                             </RevealWrapper>
                         </div>
