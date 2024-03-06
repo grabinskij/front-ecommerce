@@ -106,13 +106,21 @@ const ProductAmount = styled.div`
   }
 `;
 const WarningMessage = styled.p`
-  display: flex;
-  justify-content: start;
+  align-items: center;
   margin-top: 1rem;
-  font-size: 0.6rem;
-  span{
-    color: red;
-    margin-right: 2px;
+  font-size: 0.7rem;
+  p{
+    margin: 0;
+    span{
+      color: red;
+      margin-right: 2px;
+    }
+    &:last-child{
+      margin-left: 6px;
+      span{
+        display: block;
+      }
+    }
   }
 `;
 
@@ -337,7 +345,10 @@ export default function CartPage({setPopupVisible, consentGiven}) {
                                     )}
 
 
-                                    <WarningMessage><span>*</span>Payment is not real! Only in test mode!</WarningMessage>
+                                    <WarningMessage>
+                                        <p><span>*</span>Payment is not real! Only in test mode!</p>
+                                        <p>For testing purposes, enter card number:<span> 4242 4242 4242 4242</span></p>
+                                    </WarningMessage>
                                 </Box>
                             </RevealWrapper>
                         )}
