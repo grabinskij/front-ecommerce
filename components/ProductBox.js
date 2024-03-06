@@ -87,15 +87,14 @@ const WishlistButton = styled.button`
   }
 `;
 
-function ProductBox({
-                      _id,
+function ProductBox({ _id,
                       title,
                       price,
                       images,
                       wished= false,
                       swal,
                       onRemoveFromWishList=()=>{},
-                    }) {
+                      }) {
 
     const url = '/product/'+_id;
     const [isWished, setIsWished] = useState(wished);
