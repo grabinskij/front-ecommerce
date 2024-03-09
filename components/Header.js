@@ -56,15 +56,17 @@ const StyledNav = styled.nav`
 const NavLink = styled(Link)`
   display: block;
   text-decoration: none;
-  color: #000;
-  background-color: white;
+  color: #333;
+  background-color: #fff;
   min-width: 30px;
   padding: 10px;
   margin: 0 -20px;
   font-weight: bold;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   svg {
     height: 20px;
   }
+
   @media screen and (min-width: 820px) {
     opacity: ${props =>
             props.href === props.currentPath ? "0.7" : "1"};
@@ -72,6 +74,7 @@ const NavLink = styled(Link)`
     color: #fff;
     background-color: transparent;
     margin: 0;
+    border-bottom: none;
   }
 `;
 const NavButton = styled.button`
