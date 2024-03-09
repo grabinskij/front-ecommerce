@@ -109,15 +109,19 @@ const WarningMessage = styled.p`
   align-items: center;
   margin-top: 1rem;
   font-size: 0.7rem;
-  p{
+
+  p {
     margin: 0;
-    span{
+
+    span {
       color: red;
       margin-right: 2px;
     }
-    &:last-child{
+
+    &:last-child {
       margin-left: 6px;
-      span{
+
+      span {
         display: block;
       }
     }
@@ -127,15 +131,31 @@ const WarningMessage = styled.p`
 const StyledWarningText = styled.p`
   color: red;
   font-size: 0.9rem;
+
   span {
     color: #0260c4;
     text-decoration: underline;
     cursor: pointer;
+
     &:hover {
       color: #3784d3;
     }
   }
 `;
+const InputOrder = styled.input`
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing:border-box;
+  &::placeholder {
+    font-size: ${props => props.error ? '0.7rem' : 'inherit'};
+    color: ${props => props.error ? 'red' : 'inherit'};
+  }
+`;
+
+
 
 export default function CartPage({setPopupVisible, consentGiven}) {
     const {cartProducts, addProduct, removeProduct, clearCart} = useContext(CartContext);
@@ -147,9 +167,17 @@ export default function CartPage({setPopupVisible, consentGiven}) {
     const [postalCode, setPostalCode] = useState('');
     const [streetAddress, setStreetAddress] = useState('');
     const [country, setCountry] = useState('');
+    const [nameError, setNameError] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [cityError, setCityError] = useState('');
+    const [postalCodeError, setPostalCodeError] = useState('');
+    const [streetAddressError, setStreetAddressError] = useState('');
+    const [countryError, setCountryError] = useState('');
     const [isSuccess, setIsSuccess] = useState(false);
     const [shippingFee, setShippingFee] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [loadingCheckout, setLoadingCheckout] = useState(false);
+
 
     useEffect(() => {
         setLoading(false);
@@ -202,13 +230,102 @@ export default function CartPage({setPopupVisible, consentGiven}) {
         removeProduct(id);
     }
 
+
+
     async function goToPayment() {
-        const response = await axios.post('/api/checkout', {
-            name, email, city, postalCode, streetAddress, country, cartProducts
-        });
-        if (response.data.url) {
-            window.location = response.data.url;
+        try {
+            const response = await axios.post('/api/checkout', {
+                name, email, city, postalCode, streetAddress, country, cartProducts
+            });
+
+            if (response.data.url) {
+                window.location = response.data.url;
+            }
+        } catch (error) {
+            console.error("Error occurred while processing payment:", error);
+            throw error;
         }
+        finally {
+            setLoadingCheckout(false);
+        }
+    }
+
+    async function validateAndGoToPayment() {
+        setNameError('');
+        setEmailError('');
+        setCityError('');
+        setPostalCodeError('');
+        setStreetAddressError('');
+        setCountryError('');
+
+        let errors = [];
+
+        if (!name.trim()) {
+            setNameError("Name is required.");
+            errors.push("Name is required.");
+        }else if (!/^[a-zA-Z]+$/.test(name)) {
+            setNameError("Name should contain only letters.");
+            setName('');
+            errors.push("Name should contain only letters.");
+        }
+
+
+        if (!email.trim()) {
+            setEmailError("Email is required.");
+            errors.push("Email is required.");
+        }else if (!/\S+@\S+\.\S+/.test(email)) {
+            setEmailError("Invalid email format.");
+            setEmail('');
+            errors.push("Invalid email format.");
+        }
+
+
+        if (!city.trim()) {
+            setCityError("City is required.");
+            errors.push("City is required.");
+        }else if (!/^[a-zA-Z]+$/.test(city)) {
+            setCityError("It must have letters only.");
+            setCity('');
+            errors.push("It must have letters only.");
+        }
+
+
+        if (!postalCode.trim()) {
+            setPostalCodeError("Postal code is required.");
+            errors.push("Postal code is required.");
+        }else if (!/^\d+$/.test(postalCode)) {
+            setPostalCodeError("It must contain numbers.");
+            setPostalCode('');
+            errors.push("It must contain numbers.");
+        }
+
+
+        if (!streetAddress.trim()) {
+            setStreetAddressError("Street address is required.");
+            errors.push("Street address is required.");
+        }
+
+
+        if (!country.trim()) {
+            setCountryError("Country is required.");
+            errors.push("Country is required.");
+        }else if (!/^[a-zA-Z]+$/.test(country)) {
+            setCountryError("Country must have letters only.");
+            setCountry('');
+            errors.push("Country must have letters only.");
+        }
+
+
+
+        if (errors.length > 0) {
+            console.error("Validation errors:", errors);
+            return;
+        }
+
+        setLoadingCheckout(true);
+
+        await goToPayment();
+
     }
 
     let productsTotal = 0;
@@ -303,52 +420,73 @@ export default function CartPage({setPopupVisible, consentGiven}) {
                             <RevealWrapper delay={100}>
                                 <Box>
                                     <h2>Order information</h2>
-                                    <Input type="text"
-                                           placeholder="Name"
+                                    <InputOrder type="text"
+                                           placeholder={nameError ? `${nameError}` : "Name"}
                                            value={name}
                                            name="name"
-                                           onChange={ev => setName(ev.target.value)}/>
-                                    <Input type="text"
-                                           placeholder="Email"
+                                           onChange={ev => setName(ev.target.value)}
+                                           error={nameError}
+                                    />
+                                    <InputOrder type="text"
+                                           placeholder={emailError ? `${emailError}` : "Email"}
                                            value={email}
                                            name="email"
-                                           onChange={ev => setEmail(ev.target.value)}/>
+                                           onChange={ev => setEmail(ev.target.value)}
+                                           error={emailError}
+                                    />
                                     <CityHolder>
-                                        <Input type="text"
-                                               placeholder="City"
+                                        <InputOrder type="text"
+                                               placeholder={cityError ? `${cityError}` : "City"}
                                                value={city}
                                                name="city"
-                                               onChange={ev => setCity(ev.target.value)}/>
-                                        <Input type="text"
-                                               placeholder="Postal Code"
+                                               onChange={ev => setCity(ev.target.value)}
+                                               error={cityError}
+                                        />
+                                        <InputOrder type="text"
+                                               placeholder={postalCodeError ? `${postalCodeError}` : "Postal Code"}
                                                value={postalCode}
                                                name="postalCode"
-                                               onChange={ev => setPostalCode(ev.target.value)}/>
+                                               onChange={ev => setPostalCode(ev.target.value)}
+                                               error={postalCodeError}
+                                        />
                                     </CityHolder>
-                                    <Input type="text"
-                                           placeholder="Street Address"
+                                    <InputOrder type="text"
+                                           placeholder={streetAddressError ? `${streetAddressError}` : "Street Address"}
                                            value={streetAddress}
                                            name="streetAddress"
-                                           onChange={ev => setStreetAddress(ev.target.value)}/>
-                                    <Input type="text"
-                                           placeholder="Country"
+                                           onChange={ev => setStreetAddress(ev.target.value)}
+                                           error={streetAddressError}
+                                    />
+                                    <InputOrder type="text"
+                                           placeholder={countryError ? `${countryError}` : "Country"}
                                            value={country}
                                            name="country"
-                                           onChange={ev => setCountry(ev.target.value)}/>
-
-                                    {consentGiven ? (
-                                        <Button black block onClick={goToPayment}>Continue to payment</Button>
+                                           onChange={ev => setCountry(ev.target.value)}
+                                           error={countryError}
+                                    />
+                                    {loadingCheckout ? (
+                                        <Spinner fullWidth={true}/>
                                     ) : (
-                                        <StyledWarningText>During submitting, this form uses cookies. To proceed with fake payment in test mode, please accept
-                                            the <span onClick={openPopup}>cookie usage agreement</span> and other privacy settings.
-                                        </StyledWarningText>
+                                        <>
+                                            {consentGiven ? (
+                                                <Button black block onClick={validateAndGoToPayment}>Continue to payment</Button>
+                                            ) : (
+                                                <StyledWarningText>During submitting, this form uses cookies. To proceed
+                                                    with fake payment in test mode, please accept
+                                                    the <span onClick={openPopup}>cookie usage agreement</span> and
+                                                    other privacy settings.
+                                                </StyledWarningText>
+                                            )}
+
+
+                                            <WarningMessage>
+                                                <p><span>*</span>Payment is not real! Only in test mode!</p>
+                                                <p>For testing purposes, enter card
+                                                    number:<span> 4242 4242 4242 4242</span></p>
+                                            </WarningMessage>
+
+                                        </>
                                     )}
-
-
-                                    <WarningMessage>
-                                        <p><span>*</span>Payment is not real! Only in test mode!</p>
-                                        <p>For testing purposes, enter card number:<span> 4242 4242 4242 4242</span></p>
-                                    </WarningMessage>
                                 </Box>
                             </RevealWrapper>
                         )}
