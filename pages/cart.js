@@ -263,17 +263,17 @@ export default function CartPage({setPopupVisible, consentGiven}) {
         if (!name.trim()) {
             setNameError("Name is required.");
             errors.push("Name is required.");
-        }else if (!/^[a-zA-Z\s]+$/.test(name)) {
-            setNameError("Name should contain only letters.");
+        }else if (!/^[a-zA-ZäöüÄÖÜß\s.,-]+$/u.test(name)) {
+            setNameError("Name should contain only Latin letters or (.,-).");
             setName('');
-            errors.push("Name should contain only letters.");
+            errors.push("Name should contain only Latin letters or (.,-).");
         }
 
 
         if (!email.trim()) {
             setEmailError("Email is required.");
             errors.push("Email is required.");
-        }else if (!/\S+@\S+\.\S+/.test(email)) {
+        }else if (!/^[a-zA-ZäöüÄÖÜß0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-ZäöüÄÖÜß0-9.-]+$/.test(email)) {
             setEmailError("Invalid email format.");
             setEmail('');
             errors.push("Invalid email format.");
@@ -283,10 +283,10 @@ export default function CartPage({setPopupVisible, consentGiven}) {
         if (!city.trim()) {
             setCityError("City is required.");
             errors.push("City is required.");
-        }else if (!/^[a-zA-Z\s]+$/.test(city)) {
-            setCityError("It must have letters only.");
+        }else if (!/^[a-zA-ZäöüÄÖÜß\s.,-]+$/u.test(city)) {
+            setCityError("Latin letters or (.,-).");
             setCity('');
-            errors.push("It must have letters only.");
+            errors.push("Latin letters or (.,-).");
         }
 
 
@@ -303,16 +303,20 @@ export default function CartPage({setPopupVisible, consentGiven}) {
         if (!streetAddress.trim()) {
             setStreetAddressError("Street address is required.");
             errors.push("Street address is required.");
+        }else if (!/^[a-zA-ZäöüÄÖÜß0-9\s.,;:-]+$/u.test(streetAddress)) {
+            setStreetAddressError("It must contain only Latin letters, numbers, or (.,;:-)");
+            setStreetAddress('');
+            errors.push("It must contain only Latin letters, numbers, or (.,;:-)");
         }
 
 
         if (!country.trim()) {
             setCountryError("Country is required.");
             errors.push("Country is required.");
-        }else if (!/^[a-zA-Z\s]+$/.test(country)) {
-            setCountryError("Country must have letters only.");
+        }else if (!/^[a-zA-ZäöüÄÖÜß\s.,-]+$/u.test(country)) {
+            setCountryError("Country must have Latin letters only or (.,-).");
             setCountry('');
-            errors.push("Country must have letters only.");
+            errors.push("Country must have Latin letters only or (.,-).");
         }
 
 
