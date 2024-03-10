@@ -7,6 +7,7 @@ import BarsIcon from "./icons/Bars";
 import SearchIcon from "./icons/SearchIcon";
 import {primary} from "../lib/colors";
 import {usePathname} from "next/navigation";
+import {useClickOutside} from "../hooks/useClickOutside";
 
 const StyledHeader = styled.header`
   background-color: #0286ee;
@@ -112,6 +113,16 @@ export default function Header() {
     const currentPath = usePathname();
     const {cartProducts} = useContext(CartContext);
     const [mobileNavActive, setMobileNavActive] = useState(false);
+    const navRef = useRef(null);
+
+    console.log(mobileNavActive)
+    console.log(navRef)
+
+
+    useClickOutside(navRef, () => {
+        setMobileNavActive(false);
+    }, 100);
+
 
 
     return (
@@ -132,7 +143,7 @@ export default function Header() {
                     </StyledNav>
                     <SideIcons>
                         <Link href={'/search'}><SearchIcon/></Link>
-                        <NavButton onClick={() => setMobileNavActive(prev => !prev)}>
+                        <NavButton ref={navRef} onClick={() => setMobileNavActive(prev => !prev)}>
                             <BarsIcon/>
                         </NavButton>
                     </SideIcons>

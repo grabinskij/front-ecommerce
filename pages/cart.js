@@ -263,7 +263,7 @@ export default function CartPage({setPopupVisible, consentGiven}) {
         if (!name.trim()) {
             setNameError("Name is required.");
             errors.push("Name is required.");
-        }else if (!/^[a-zA-Z]+$/.test(name)) {
+        }else if (!/^[a-zA-Z\s]+$/.test(name)) {
             setNameError("Name should contain only letters.");
             setName('');
             errors.push("Name should contain only letters.");
@@ -283,7 +283,7 @@ export default function CartPage({setPopupVisible, consentGiven}) {
         if (!city.trim()) {
             setCityError("City is required.");
             errors.push("City is required.");
-        }else if (!/^[a-zA-Z]+$/.test(city)) {
+        }else if (!/^[a-zA-Z\s]+$/.test(city)) {
             setCityError("It must have letters only.");
             setCity('');
             errors.push("It must have letters only.");
@@ -309,7 +309,7 @@ export default function CartPage({setPopupVisible, consentGiven}) {
         if (!country.trim()) {
             setCountryError("Country is required.");
             errors.push("Country is required.");
-        }else if (!/^[a-zA-Z]+$/.test(country)) {
+        }else if (!/^[a-zA-Z\s]+$/.test(country)) {
             setCountryError("Country must have letters only.");
             setCountry('');
             errors.push("Country must have letters only.");
