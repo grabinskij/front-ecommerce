@@ -231,8 +231,11 @@ export default function AccountPage({consentGiven, setPopupVisible}) {
                                             )}
                                             {orderLoaded && (
                                                 <div>
-                                                    {orders.length === 0 && (
+                                                    {!session && orders.length === 0 && (
                                                         <p>Login to see your orders</p>
+                                                    )}
+                                                    {session && orders.length === 0 && (
+                                                        <p>Your order list is empty</p>
                                                     )}
                                                     {orders.length > 0 && orders.map(ord => (
                                                         <Order key={ord._id}{...ord} />

@@ -350,7 +350,7 @@ export default function CartPage({setPopupVisible, consentGiven}) {
                     <ColumnsWrapper>
                         <Box>
                             <h1>Thanks for your order!</h1>
-                            <p>We will email you after the order will be sent.</p>
+                            <p>You've successfully tested the payment process on our site.</p>
                         </Box>
                     </ColumnsWrapper>
                 </Center>
