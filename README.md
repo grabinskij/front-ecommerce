@@ -1,6 +1,6 @@
-# 🧸 **Children's World**: Online Store for Children's Products
+🎁 **E-Commerce Store**: Frontend for Online Shopping
 
-Welcome to **Children's World**, a modern online store dedicated to children's toys and various other products.
+Welcome to the **E-Commerce Store**, the frontend for an online shopping platform offering a variety of products including toys, clothing, and more.
 
 <br>
 
@@ -32,7 +32,7 @@ This project is open-source and available under the MIT License.
 
 ## 🔥 How to Run Locally
 
-To run the frontend part of Children's World locally, follow these steps:
+To run the project locally, follow these steps:
 
 1. **Clone this repository**:
    ```bash
