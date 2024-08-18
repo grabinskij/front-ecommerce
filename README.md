@@ -1,6 +1,6 @@
 # 🎁 **E-Commerce Store**: Frontend for Online Shopping
 
-Welcome to the **E-Commerce Store**, the frontend for an online shopping platform offering a variety of products including toys, clothing, and more.
+Welcome to the **E-Commerce Store**. It is the frontend of an online shopping platform that provides services to showcase and manage a wide range of products and more.
 
 <br>
 
