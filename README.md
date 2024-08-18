@@ -1,3 +1,66 @@
+# 🧸 **Children's World**: Online Store for Children's Products
+
+Welcome to **Children's World**, a modern online store dedicated to children's toys and various other products.
+
+<br>
+
+## ⭐ Features
+
+- **Product Catalog**: Browse a wide selection of toys and other products with detailed descriptions and images.
+- **Shopping Cart**: Manage items in your cart with ease, including adding and removing products.
+- **Secure Checkout**: Handle transactions securely with Stripe integration.
+- **Responsive Design**: Optimized for a seamless experience across all devices, including desktops, tablets, and mobile phones.
+- **Styled UI**: Enjoy a visually appealing interface designed using Styled-Components.
+
+<br>
+
+## 🛠️ Tech Stack
+
+- **Next.js**: React framework for server-side rendering and static site generation.
+- **Stripe**: Payment gateway for secure transaction processing.
+- **Styled-Components**: For modular and scoped styling of React components.
+- **JavaScript**: Core programming language used in the project.
+- **React**: JavaScript library for building user interfaces.
+
+<br>
+
+## 📝 License
+
+This project is open-source and available under the MIT License.
+
+<br>
+
+## 🔥 How to Run Locally
+
+To run the frontend part of Children's World locally, follow these steps:
+
+1. **Clone this repository**:
+   ```bash
+   git clone https://github.com/grabinskij/front-ecommerce.git
+
+2. **Navigate to the project directory**:
+   ```bash
+   cd front-ecommerce
+
+3. **Install dependencies**:
+   ```bash
+   yarn install
+
+4. **Run the development server**:
+   ```bash
+   yarn dev
+
+<br>
+
+## 🤝 Let's Connect
+
+Feel free to reach out! I'm always open to feedback and opportunities to collaborate.
+- **LinkedIn**: [https://www.linkedin.com/in/bohdan-hrabynskyi](https://www.linkedin.com/in/bohdan-hrabynskyi)
+- **GitHub**: [https://github.com/grabinskij](https://github.com/grabinskij)
+- **Email**: [hrabynskyi.dev@gmail.com](mailto:hrabynskyi.dev@gmail.com)
+
+<br>
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
