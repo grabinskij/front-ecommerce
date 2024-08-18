@@ -206,7 +206,7 @@ export default function CartPage({setPopupVisible, consentGiven}) {
         axios.get('/api/settings?name=shippingFee').then(res => {
             setShippingFee(res.data.value);
         })
-    }, []);
+    }, [clearCart]);
 
     useEffect(() => {
         if (!session) {
@@ -350,7 +350,7 @@ export default function CartPage({setPopupVisible, consentGiven}) {
                     <ColumnsWrapper>
                         <Box>
                             <h1>Thanks for your order!</h1>
-                            <p>You've successfully tested the payment process on our site.</p>
+                            <p>You&apos;ve successfully tested the payment process on our site.</p>
                         </Box>
                     </ColumnsWrapper>
                 </Center>
