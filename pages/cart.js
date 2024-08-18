@@ -206,7 +206,7 @@ export default function CartPage({setPopupVisible, consentGiven}) {
         axios.get('/api/settings?name=shippingFee').then(res => {
             setShippingFee(res.data.value);
         })
-    }, [clearCart]);
+    }, []);
 
     useEffect(() => {
         if (!session) {
