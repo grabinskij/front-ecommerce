@@ -1,10 +1,10 @@
-🎁 **E-Commerce Store**: Frontend for Online Shopping
+# 🎁 **E-Commerce Store**: Frontend for Online Shopping
 
 Welcome to the **E-Commerce Store**, the frontend for an online shopping platform offering a variety of products including toys, clothing, and more.
 
 <br>
 
-## ⭐ Features
+## 🌟 Features
 
 - **Product Catalog**: Browse a wide selection of toys and other products with detailed descriptions and images.
 - **Shopping Cart**: Manage items in your cart with ease, including adding and removing products.
